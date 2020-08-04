@@ -1,12 +1,10 @@
 import React from 'react';
 import './assets/styles/globals.css'
-import Lading from './pages/Landing'
+import Routes from './routes'
 
 function App() {
   return (
-    <div className="App">
-      <Lading/>
-    </div>
+    <Routes/>
   );
 }
 

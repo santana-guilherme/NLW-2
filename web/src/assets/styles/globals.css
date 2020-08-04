@@ -46,12 +46,12 @@ input,
 button,
 textarea {
     font: 500 1.6rem Poppins;
+    color: var(--color-text-base)
 }
 
 .container {
     width: 90vw;
     max-width: 700px;
-    background-color: orange;
 }
 
 @media (min-width: 700px) {
