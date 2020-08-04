@@ -1,0 +1,21 @@
+version: '3.1'
+services:
+  web:
+    build:
+      context: ./web
+    user: '${CURRENT_UID}'
+    working_dir: '/usr/src/app'
+    network_mode: 'host'
+    volumes:
+      - .:/usr/src/app
+    command: bash -c 'cd web && bash'
+
+  server:
+    build:
+      context: ./server
+    user: '${CURRENT_UID}'
+    working_dir: '/usr/src/app'
+    network_mode: 'host'
+    volumes:
+      - .:/usr/src/app
+    command: bash -c 'cd server && bash'
