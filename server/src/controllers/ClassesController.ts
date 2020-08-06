@@ -42,7 +42,6 @@ export default class ClassesController {
   }
 
   async create(request: Request, response: Response) {
-    console.log(request.body)
     const {
       name,
       avatar,
