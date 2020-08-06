@@ -16,8 +16,8 @@ function TeacherList() {
 
   async function handleSearchTeachers(e: FormEvent) {
     e.preventDefault()
-    const response = await api.get('classes',{
-      params:{
+    const response = await api.get('classes', {
+      params: {
         subject,
         week_day,
         time
@@ -31,7 +31,6 @@ function TeacherList() {
     <div id="page-teacher-list" className="container">
       <PageHeader title="Estes são os proffys disponíveis.">
         <form id="search-teachers" onSubmit={handleSearchTeachers}>
-
           <Select
             name="subject"
             label="Matéria"
@@ -82,7 +81,7 @@ function TeacherList() {
 
       <main>
         {teachers.map((teacherItem: Teacher) => {
-          return  <TeacherItem key={teacherItem.id} teacher={teacherItem} />
+          return <TeacherItem key={teacherItem.id} teacher={teacherItem} />
         })}
       </main>
     </div>

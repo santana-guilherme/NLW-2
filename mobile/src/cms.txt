@@ -1,0 +1,17 @@
+expo init <project-name>
+expo google fonts
+expo install expo-font @expo-google-fonts/<font-name>
+//navigation
+yarn add @react-navigation/native
+expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+yarn add @react-navigation/stack
+yarn add @react-navigation/bottom-tabs
+
+
+ <NavigationContainer> //NavigationCOntainer similar to BrowseRouter
+  <Navigator screenOptions={{ headerShown: false}}> {/*Navegação em pilha ~ Route ou Switch*/}
+      <Screen name="Landing" component={Landing} /> {/*Cada tela ~ Link */}
+  </Navigator>
+</NavigationContainer>
+
+resizeMode="contain" faz com que o conteúdo do elemento fique dentro que o contem
