@@ -102,7 +102,7 @@ function TeacherForm() {
               label="Matéria"
               options={[
                 { value: "Artes", label: "Artes" },
-                { value: "Quimica", label: "Quimica" },
+                { value: "Química", label: "Química" },
                 { value: "Biologia", label: "Biologia" },
                 { value: "Ciências", label: "Ciências" },
                 { value: "Educação física", label: "Educação física" },

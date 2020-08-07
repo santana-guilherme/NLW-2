@@ -15,3 +15,5 @@ yarn add @react-navigation/bottom-tabs
 </NavigationContainer>
 
 resizeMode="contain" faz com que o conteúdo do elemento fique dentro que o contem
+
+expo install @react-native-community/async-storage
