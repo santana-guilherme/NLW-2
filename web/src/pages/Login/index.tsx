@@ -5,7 +5,7 @@ import './styles.css'
 import Input from '../../components/Input';
 import api from '../../services/api';
 import appContext from '../../AppContext';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 function Login() {
   const history = useHistory();
@@ -51,7 +51,9 @@ function Login() {
         <div className="login-container">
           <header id="login-header">
             <h1>Fazer login</h1>
-            <p>Criar uma conta</p>
+            <Link to='/register'>
+              Criar uma conta
+            </Link>
           </header>
           <form id="login-form" onSubmit={handleLogin}>
             <Input
@@ -83,9 +85,9 @@ function Login() {
           <footer>
             <div id="cadastrar">
               <p>Não tem conta? <br />
-                <a href='#'>
+                <Link to='/register'>
                   <strong>Cadastre-se</strong>
-                </a>
+                </Link>
               </p>
             </div>
             <p>É de graça </p>
