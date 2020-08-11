@@ -1,14 +1,17 @@
 import React, { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import Input from '../../components/Input';
 import backIcon from '../../assets/images/icons/back.svg';
-import logoImg from '../../assets/images/logo.svg';
 
 import './styles.css';
 import api from '../../services/api';
+import LogoContainer from '../../components/LogoContainer';
 
 function Register() {
+  const hisotory = useHistory();
+
   const [name, setName] = useState("");
   const [last_name, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,11 +25,14 @@ function Register() {
       email,
       password
     })
-    .then(response => alert(response.data.message))
-    .catch(err => {
-      console.log(err)
-      alert(`ERRO${err.error}`)
-    })
+      .then(response => {
+        alert(response.data.message);
+        hisotory.push('/login');
+      })
+      .catch(err => {
+        console.log(err);
+        alert(`ERRO ${err.error}`);
+      })
   }
 
   return (
@@ -75,10 +81,8 @@ function Register() {
             </button>
           </form>
         </main>
-        <div className="logo-container">
-          <img src={logoImg} alt="Proffy logo" />
-          <h2>Sua plataforma de<br /> estudos online.</h2>
-        </div>
+
+        <LogoContainer/>
       </div>
     </div>
   )

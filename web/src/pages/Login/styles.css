@@ -10,7 +10,7 @@
   height: 100%;
 }
 
-#page-login-content .logo-container {
+/* #page-login-content .logo-container {
   background: var(--color-primary);
   height: 50%;
   width: 100%;
@@ -34,7 +34,7 @@
 #page-login-content .logo-container img, #page-login-content .logo-container h2{
   width: 45%;
 }
-
+ */
 .login-container {
   min-height: 40rem;
   width: 100%;
@@ -118,12 +118,12 @@
     max-width: 100%;
   }
 
-  #page-login-content .logo-container{
+/*   #page-login-content .logo-container{
     height: 100%;
     width: 50%;
     max-width: 50%;
     max-height: 100%;
-  }
+  } */
 
   .login-container{
     max-width: 50%;

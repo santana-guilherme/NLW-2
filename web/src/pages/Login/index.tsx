@@ -1,11 +1,11 @@
 import React, { useState, useEffect, FormEvent, useContext } from 'react';
-import logoImg from '../../assets/images/logo.svg';
 
 import './styles.css'
 import Input from '../../components/Input';
 import api from '../../services/api';
 import appContext from '../../AppContext';
 import { useHistory, Link } from 'react-router-dom';
+import LogoContainer from '../../components/LogoContainer';
 
 function Login() {
   const history = useHistory();
@@ -43,10 +43,7 @@ function Login() {
     <div id="page-login">
       <div id="page-login-content" className="container">
 
-        <div className="logo-container">
-          <img src={logoImg} alt="Proffy logo" />
-          <h2>Sua plataforma de<br/> estudos online.</h2>
-        </div>
+        <LogoContainer/>
 
         <div className="login-container">
           <header id="login-header">

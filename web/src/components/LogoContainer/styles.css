@@ -1,0 +1,33 @@
+ .logo-container {
+  background: var(--color-primary);
+  height: 50%;
+  width: 100%;
+  font: 500 1rem Archivo;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../../assets/images/success-background.svg');
+  background-size: 100% 100%;
+  transition: height .2s;
+}
+
+ .logo-container h2 {
+  font-weight: 500;
+  font-size: 1.8rem;
+  margin-top: .6rem;
+  color: var(--color-text-in-primary);
+}
+
+ .logo-container img,  .logo-container h2{
+  width: 45%;
+}
+
+@media(min-width: 700px) {
+  .logo-container{
+    height: 100%;
+    width: 50%;
+    max-width: 50%;
+    max-height: 100%;
+  }
+}
