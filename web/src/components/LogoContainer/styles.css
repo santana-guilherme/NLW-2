@@ -1,25 +1,34 @@
- .logo-container {
+ 
+.logo-container {
   background: var(--color-primary);
   height: 50%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 0;
+}
+ .logo-container .background-img {
+  width: 100%;
+  height: 100%;
   font: 500 1rem Archivo;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url('../../assets/images/success-background.svg');
-  background-size: 100% 100%;
-  transition: height .2s;
+  background-image: url('../../assets/images/Background.svg');
+  background-size: 100% 100%; 
 }
 
- .logo-container h2 {
+ .background-img h2 {
   font-weight: 500;
   font-size: 1.8rem;
   margin-top: .6rem;
   color: var(--color-text-in-primary);
 }
 
- .logo-container img,  .logo-container h2{
+ .background-img img,  .background-img h2{
   width: 45%;
 }
 

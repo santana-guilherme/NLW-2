@@ -26,8 +26,7 @@ function Register() {
       password
     })
       .then(response => {
-        alert(response.data.message);
-        hisotory.push('/login');
+        hisotory.push('/register-success');
       })
       .catch(err => {
         console.log(err);
@@ -41,7 +40,7 @@ function Register() {
         <main>
           <form id="user-register-form" onSubmit={handleRegisterSubmit}>
             <header>
-              <Link to='/'>
+              <Link to='/login'>
                 <img src={backIcon} alt="voltar" />
               </Link>
             </header>

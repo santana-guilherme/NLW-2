@@ -5,7 +5,7 @@ import appContext, { AppStateInterface } from './AppContext'
 
 
 function App() {
-  const [appState, setAppState] = useState<AppStateInterface>({signed: false})
+  const [appState, setAppState] = useState<AppStateInterface>({signed: true})
   return (
     <appContext.Provider value={{appState, setAppState}}>
       <Routes />

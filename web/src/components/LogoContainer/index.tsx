@@ -4,10 +4,14 @@ import './styles.css'
 
 function LogoContainer() {
   return (
+
     <div className="logo-container">
-      <img src={logoImg} alt="Proffy logo" />
-      <h2>Sua plataforma de<br /> estudos online.</h2>
+      <div className="background-img">
+        <img src={logoImg} alt="Proffy logo" />
+        <h2>Sua plataforma de<br /> estudos online.</h2>
+      </div>
     </div>
+
   );
 }
 

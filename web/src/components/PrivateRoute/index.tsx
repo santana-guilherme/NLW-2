@@ -5,7 +5,7 @@ import appContext from '../../AppContext';
 const PrivateRoute = ({component, path, exact, ...rest}: any) => {
   const { appState } = useContext(appContext);
   return (
-    <Route {...rest} path={path} render={ props => (
+    <Route {...rest} exact={exact} path={path} render={ props => (
       appState.signed
       ? React.createElement(component, props)
       : <Redirect to='/login'/>
