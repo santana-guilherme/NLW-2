@@ -1,9 +1,9 @@
-import React, { useState, useEffect, FormEvent, useContext } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import Input from '../../components/Input';
 import LogoContainer from '../../components/LogoContainer';
-import AuthContext from '../../contexts/auth';
+import { useAuth } from '../../contexts/auth';
 
 import './styles.css'
 
@@ -12,7 +12,7 @@ function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isDisabled, setIsDisabled] = useState(true)
-  const { signed, user, logIn } = useContext(AuthContext)
+  const { signed, user, logIn } = useAuth()
 
   console.log('USER LOGIN', user)
   console.log('SIGNED', signed)

@@ -19,6 +19,12 @@ function Register() {
 
   function handleRegisterSubmit(e: FormEvent) {
     e.preventDefault()
+    if (name.trim() === "" || last_name.trim() === ""
+      || email.trim() === "" || password.trim() === "") {
+      alert("Preencha todos os campos ;-)");
+      return;
+    }
+
     api.post('/register', {
       name,
       last_name,
@@ -26,7 +32,11 @@ function Register() {
       password
     })
       .then(response => {
-        hisotory.push('/register-success');
+        if (response.status === 201) {
+          hisotory.push('/register-success');
+        } else {
+          alert(JSON.stringify(response))
+        }
       })
       .catch(err => {
         console.log(err);
@@ -81,7 +91,7 @@ function Register() {
           </form>
         </main>
 
-        <LogoContainer/>
+        <LogoContainer />
       </div>
     </div>
   )

@@ -88,4 +88,8 @@
     margin-bottom: 0;
     margin-top: -10rem;
   }
+
+  #register-information p:last-child {
+    display: block;
+  }
 }

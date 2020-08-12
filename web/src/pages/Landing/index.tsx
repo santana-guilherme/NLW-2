@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api'
 
@@ -12,12 +12,12 @@ import giveClassesIcon from '../../assets/images/icons/give-classes.svg';
 import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg';
 
 import './styles.css';
-import AuthContext from '../../contexts/auth';
+import { useAuth } from '../../contexts/auth';
 
 
 function Landing() {
   const [totalConnections, setTotalConnections] = useState(0)
-  const { logOut, user } = useContext(AuthContext)
+  const { logOut, user } = useAuth()
 
   useEffect(() => {
     api.get('connections').then(response => {
@@ -40,12 +40,12 @@ function Landing() {
               <img src="http://github.com/GDSRS.png" alt="foto do usuário" />
               <p>{`${user?.name} ${user?.last_name}`}</p>
             </div>
-            <img src={logoutIcon} alt="botão sair" onClick={handleLogOut}/>
+            <img src={logoutIcon} alt="botão sair" onClick={handleLogOut} />
           </div>
 
           <div className="logo-container-landing">
             <img src={logoImg} alt="Proffy logo" />
-            <h2>Sua plataforma de<br/> estudos online.</h2>
+            <h2>Sua plataforma de<br /> estudos online.</h2>
           </div>
 
           <img
@@ -73,7 +73,7 @@ function Landing() {
           </div>
 
           <span className="total-connections">
-            Total de {totalConnections} conexões<br/>
+            Total de {totalConnections} conexões<br />
             já realizadas <img src={purpleHeartIcon} alt="Coração roxo" />
           </span>
         </div>

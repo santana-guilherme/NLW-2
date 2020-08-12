@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
-import AuthContext from '../../contexts/auth';
+import { useAuth } from '../../contexts/auth';
 
 const RestrictedRoute: React.FC = ({ children }) => {
-  const { signed } = useContext(AuthContext);
-  if(!signed) {
+  const { signed } = useAuth();
+  if (!signed) {
     return (
       <div>
         {children}
@@ -12,7 +12,7 @@ const RestrictedRoute: React.FC = ({ children }) => {
     );
   }
   return (
-    <Redirect to='/'/>
+    <Redirect to='/' />
   );
 }
 

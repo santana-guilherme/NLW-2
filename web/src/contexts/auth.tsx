@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import api from '../services/api';
 
 interface UserInterface {
@@ -19,13 +19,26 @@ export interface AuthContextInterface {
 const AuthContext = createContext<AuthContextInterface>({} as AuthContextInterface);
 
 export const AuthProvider: React.FC = ({ children }) => {
-
   const [user, setUser] = useState<UserInterface | null>(getUserFromLocalStorage());
+
+  useEffect(() => {
+    function loadStorageData() {
+      const storedUser = getUserFromLocalStorage()
+      const storedToken = localStorage.getItem('@Proffys:token')
+
+      if (storedUser && storedToken) {
+        setUser(storedUser)
+        api.defaults.headers['Authorization'] = `Bearer ${storedToken}`
+      }
+    }
+
+    loadStorageData()
+  }, []);
 
 
   function getUserFromLocalStorage(): UserInterface | null {
-    let userString = localStorage.getItem('user')
-    return userString !== null ? JSON.parse(userString): null
+    let userString = localStorage.getItem('@Proffys:user')
+    return userString !== null ? JSON.parse(userString) : null
   }
 
   async function logIn(email: string, password: string) {
@@ -36,8 +49,9 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     if (response.status === 200) {
       const { user, token } = response.data
+      localStorage.setItem('@Proffys:user', JSON.stringify(user))
+      localStorage.setItem('@Proffys:token', token)
       setUser(user);
-      localStorage.setItem('user', JSON.stringify(user))
       api.defaults.headers['Authorization'] = `Bearer ${token}`
 
     } else {
@@ -46,8 +60,9 @@ export const AuthProvider: React.FC = ({ children }) => {
   }
 
   function logOut() {
+    localStorage.removeItem('@Proffys:user');
+    localStorage.removeItem('@Proffys:token');
     setUser(null);
-    localStorage.removeItem('user');
     delete api.defaults.headers['Authorization']
   }
 
@@ -59,4 +74,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 }
 
 
-export default AuthContext;
+export function useAuth() {
+  const context = useContext(AuthContext);
+  return context;
+}
