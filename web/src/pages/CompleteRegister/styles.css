@@ -69,7 +69,7 @@
 
 @media(min-width: 700px){
   #page-register-success{
-    min-width: 100%;
+    max-width: 100%;
   }
 
   #page-register-success-content {

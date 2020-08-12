@@ -12,7 +12,7 @@ function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isDisabled, setIsDisabled] = useState(true)
-  const { signed, user, signIn } = useContext(AuthContext)
+  const { signed, user, logIn } = useContext(AuthContext)
 
   console.log('USER LOGIN', user)
   console.log('SIGNED', signed)
@@ -27,7 +27,7 @@ function Login() {
 
   function handleLogin(e: FormEvent) {
     e.preventDefault();
-    signIn(email, password);
+    logIn(email, password);
   }
 
   return (

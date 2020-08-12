@@ -1,34 +1,45 @@
 import React, { createContext, useState } from 'react';
 import api from '../services/api';
 
+interface UserInterface {
+  name: string;
+  last_name: string;
+  avatar: string;
+  email: string;
+  password: string;
+}
+
 export interface AuthContextInterface {
   signed: boolean;
-  user: object | null;
-  signIn(email: string, password: string): Promise<void>;
+  user: UserInterface | null;
+  logIn(email: string, password: string): Promise<void>;
   logOut(): void;
 }
 
 const AuthContext = createContext<AuthContextInterface>({} as AuthContextInterface);
 
 export const AuthProvider: React.FC = ({ children }) => {
-  let userString = localStorage.getItem('user')
-  let userObject = userString !== null ? JSON.parse(userString): null
 
-  const [user, setUser] = useState<object | null>(userObject);
-  const [token, setToken] = useState('');
+  const [user, setUser] = useState<UserInterface | null>(getUserFromLocalStorage());
 
-  async function signIn(email: string, password: string) {
+
+  function getUserFromLocalStorage(): UserInterface | null {
+    let userString = localStorage.getItem('user')
+    return userString !== null ? JSON.parse(userString): null
+  }
+
+  async function logIn(email: string, password: string) {
     const response = await api.post('/login', {
       email,
       password
     });
 
-    const { user, token } = response.data
-
     if (response.status === 200) {
+      const { user, token } = response.data
       setUser(user);
       localStorage.setItem('user', JSON.stringify(user))
-      setToken(response.data.token);
+      api.defaults.headers['Authorization'] = `Bearer ${token}`
+
     } else {
       alert(`error ${response.data.error}`)
     }
@@ -37,10 +48,11 @@ export const AuthProvider: React.FC = ({ children }) => {
   function logOut() {
     setUser(null);
     localStorage.removeItem('user');
+    delete api.defaults.headers['Authorization']
   }
 
   return (
-    <AuthContext.Provider value={{ signed: !!user, user, signIn, logOut }}>
+    <AuthContext.Provider value={{ signed: !!user, user, logIn, logOut }}>
       {children}
     </AuthContext.Provider>
   );

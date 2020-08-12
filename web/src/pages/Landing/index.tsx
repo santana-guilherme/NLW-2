@@ -17,7 +17,7 @@ import AuthContext from '../../contexts/auth';
 
 function Landing() {
   const [totalConnections, setTotalConnections] = useState(0)
-  const { logOut } = useContext(AuthContext)
+  const { logOut, user } = useContext(AuthContext)
 
   useEffect(() => {
     api.get('connections').then(response => {
@@ -38,7 +38,7 @@ function Landing() {
           <div id="user-header">
             <div id="user-info">
               <img src="http://github.com/GDSRS.png" alt="foto do usuário" />
-              <p>User name</p>
+              <p>{`${user?.name} ${user?.last_name}`}</p>
             </div>
             <img src={logoutIcon} alt="botão sair" onClick={handleLogOut}/>
           </div>
