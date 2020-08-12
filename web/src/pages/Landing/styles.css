@@ -32,6 +32,10 @@
     align-items: center;
 }
 
+#top #user-header img {
+  cursor: pointer;
+}
+
 #top #user-header #user-info {
     display: flex;
     font: 500 1.9rem Poppins;

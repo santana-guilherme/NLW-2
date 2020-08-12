@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import {Route, Redirect } from 'react-router-dom';
-import appContext from '../../AppContext';
+import AuthContext from '../../contexts/auth';
 
 const PrivateRoute = ({component, path, exact, ...rest}: any) => {
-  const { appState } = useContext(appContext);
+  const { signed } = useContext(AuthContext);
   return (
     <Route {...rest} exact={exact} path={path} render={ props => (
-      appState.signed
+      signed
       ? React.createElement(component, props)
       : <Redirect to='/login'/>
     )}/>

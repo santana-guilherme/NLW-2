@@ -1,19 +1,21 @@
 import React, { useState, useEffect, FormEvent, useContext } from 'react';
+import { Link } from 'react-router-dom';
+
+import Input from '../../components/Input';
+import LogoContainer from '../../components/LogoContainer';
+import AuthContext from '../../contexts/auth';
 
 import './styles.css'
-import Input from '../../components/Input';
-import api from '../../services/api';
-import appContext from '../../AppContext';
-import { useHistory, Link } from 'react-router-dom';
-import LogoContainer from '../../components/LogoContainer';
 
 function Login() {
-  const history = useHistory();
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isDisabled, setIsDisabled] = useState(true)
-  const { appState, setAppState } = useContext(appContext)
+  const { signed, user, signIn } = useContext(AuthContext)
+
+  console.log('USER LOGIN', user)
+  console.log('SIGNED', signed)
 
   useEffect(() => {
     if (email.replace(/ /g, "") !== '' && password.replace(/ /g, "") !== '') {
@@ -23,27 +25,16 @@ function Login() {
     }
   }, [password, email])
 
-  async function handleLogin(e: FormEvent) {
-    e.preventDefault()
-    const response = await api.post('login',{
-      email,
-      password
-    })
-
-    if(response.status === 200) {
-      const {user, token} = response.data
-      setAppState({user, token, signed: true})
-      console.log('Success', appState)
-      history.push('/home')
-    }
-    
+  function handleLogin(e: FormEvent) {
+    e.preventDefault();
+    signIn(email, password);
   }
 
   return (
     <div id="page-login">
       <div id="page-login-content" className="container">
 
-        <LogoContainer/>
+        <LogoContainer />
 
         <div className="login-container">
           <header id="login-header">

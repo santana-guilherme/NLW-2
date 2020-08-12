@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api'
 
@@ -12,10 +12,12 @@ import giveClassesIcon from '../../assets/images/icons/give-classes.svg';
 import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg';
 
 import './styles.css';
+import AuthContext from '../../contexts/auth';
 
 
 function Landing() {
   const [totalConnections, setTotalConnections] = useState(0)
+  const { logOut } = useContext(AuthContext)
 
   useEffect(() => {
     api.get('connections').then(response => {
@@ -23,6 +25,10 @@ function Landing() {
       setTotalConnections(total)
     })
   }, [])
+
+  function handleLogOut() {
+    logOut();
+  }
 
   return (
     <div id="page-landing">
@@ -34,7 +40,7 @@ function Landing() {
               <img src="http://github.com/GDSRS.png" alt="foto do usuário" />
               <p>User name</p>
             </div>
-            <img src={logoutIcon} alt="botão sair" />
+            <img src={logoutIcon} alt="botão sair" onClick={handleLogOut}/>
           </div>
 
           <div className="logo-container-landing">
