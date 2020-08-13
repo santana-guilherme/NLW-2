@@ -10,31 +10,6 @@
   height: 100%;
 }
 
-/* #page-login-content .logo-container {
-  background: var(--color-primary);
-  height: 50%;
-  width: 100%;
-  font: 500 1rem Archivo;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-image: url('../../assets/images/success-background.svg');
-  background-size: 100% 100%;
-  transition: height .2s;
-}
-
-#page-login-content .logo-container h2 {
-  font-weight: 500;
-  font-size: 1.8rem;
-  margin-top: .6rem;
-  color: var(--color-text-in-primary);
-}
-
-#page-login-content .logo-container img, #page-login-content .logo-container h2{
-  width: 45%;
-}
- */
 .login-container {
   min-height: 40rem;
   width: 100%;
@@ -90,6 +65,11 @@
   font: 500 1.2rem Poppins;
   color: var(--color-text-complement);
   margin: 2.8rem 0;
+  text-decoration: none;
+}
+#login-form #form-options a{
+  text-decoration: none;
+  color: var(--color-text-complement);
 }
 
 .login-container form button {
@@ -117,14 +97,6 @@
     flex-direction: row;
     max-width: 100%;
   }
-
-/*   #page-login-content .logo-container{
-    height: 100%;
-    width: 50%;
-    max-width: 50%;
-    max-height: 100%;
-  } */
-
   .login-container{
     max-width: 50%;
     height: 100%;

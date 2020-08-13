@@ -9,6 +9,8 @@ import Register from './pages/Register'
 import PrivateRoute from './components/PrivateRoute';
 import RestrictedRoute from './components/RestrictedRoute';
 import CompleteRegister from './pages/CompleteRegister';
+import ForgotPassword from './pages/ForgotPassword';
+import CompleteForgotPassword from './pages/CompletForgotPassword';
 
 
 function Routes() {
@@ -18,6 +20,8 @@ function Routes() {
         <Route path="/login" component={Login}/>
         <Route path="/register" component={Register}/>
         <Route path="/register-success" component={CompleteRegister}/>
+        <Route path="/forgot-password-complete" component={CompleteForgotPassword}/>
+        <Route path="/forgot-password" component={ForgotPassword}/>
       </RestrictedRoute>
       <PrivateRoute exact path="/" component={Landing} />
       <PrivateRoute path="/study" component={TeacherList} />

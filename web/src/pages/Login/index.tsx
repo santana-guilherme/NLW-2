@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import Input from '../../components/Input';
@@ -11,19 +11,7 @@ function Login() {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [isDisabled, setIsDisabled] = useState(true)
-  const { signed, user, logIn } = useAuth()
-
-  console.log('USER LOGIN', user)
-  console.log('SIGNED', signed)
-
-  useEffect(() => {
-    if (email.replace(/ /g, "") !== '' && password.replace(/ /g, "") !== '') {
-      setIsDisabled(false)
-    } else {
-      setIsDisabled(true)
-    }
-  }, [password, email])
+  const { logIn } = useAuth()
 
   function handleLogin(e: FormEvent) {
     e.preventDefault();
@@ -65,9 +53,16 @@ function Login() {
                 <input type='checkbox' />
                 <label htmlFor="remember">Lembrar-me</label>
               </div>
-              <p>Esqueci minha senha</p>
+              <Link to='/forgot-password'>Esqueci minha senha</Link>
             </div>
-            <button disabled={isDisabled} type='submit'>Entrar</button>
+            <button
+              disabled={
+                email.trim() === '' || password.trim() === ''
+              }
+              type='submit'
+            >
+              Entrar
+            </button>
           </form>
 
           <footer>

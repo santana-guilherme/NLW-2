@@ -92,15 +92,8 @@ export default class UsersController {
             error: 'Could not send forgot password email :-('
           })
         }
-        res.status(200).send()
+        res.status(200).send({message: 'Reset password email was send ;-)'})
       })
-
-     /*  res.status(201).json({
-        user: updatedUser,
-        tokens: `Token: ${resetPasswordToken} e expirationTime: ${tokenExpirationTime}`
-      }).send() */
-
-
     } catch (err) {
       console.log('Error', err);
       return res.status(400).json({

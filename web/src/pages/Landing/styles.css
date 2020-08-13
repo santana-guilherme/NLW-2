@@ -50,6 +50,9 @@
 
 #top #user-header #user-info p {
     margin-left: 1.6rem;
+    margin-right: 1rem;
+    font: 600 1.6rem Poppins;
+    line-height: 3rem;
 }
 
 .hero-image {

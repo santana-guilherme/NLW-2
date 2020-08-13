@@ -1,0 +1,100 @@
+#forgot-password-page {
+  width: 100vw;
+  height: 100vh;
+}
+
+#forgot-password-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#forgot-password-content form {
+  height: 50%;
+  width: 80%;
+}
+
+#forgot-password-content form header a  {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+#forgot-password-content form header h2 {
+  margin-bottom: .8rem;
+  font: 600 2.6rem Poppins;
+}
+
+#forgot-password-content form header p {
+  width: 80%;
+  font: 500 1.6rem Poppins;
+  line-height: 2.4rem;
+  margin-bottom: 1.5rem;
+}
+
+#forgot-password-content form .input-block {
+  margin-bottom: 4rem;
+}
+
+#forgot-password-content form .input-block input {
+  font: 500 1.6rem Poppins;
+}
+
+#forgot-password-content form button {
+  width: 100%;
+  border: 0;
+  /*background-color: var(--color-secundary);*/
+  border-radius: .8rem;
+  font: 700 1.6rem Archivo;
+  line-height: 2.6rem;
+  min-height: 5.6rem;
+  color: white;
+  background-color: var(--color-secundary);
+}
+#forgot-password-content form .input-block,
+#forgot-password-content form header {
+  width: 100%;
+}
+
+#forgot-password-content form button:disabled {
+  background-color: #DCDCE5;
+  color: var(--color-text-complement);
+}
+
+@media(min-width: 700px) {
+  #forgot-password-content{
+    flex-direction: row-reverse;
+    max-width: 100%;
+  }
+
+  #forgot-password-content form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 50%;
+    padding: 0;
+  }
+
+  #forgot-password-content form .input-block,
+  #forgot-password-content form header,
+  #forgot-password-content form button {
+    width: 60%;
+  }
+
+  #forgot-password-content form header a img {
+    margin-bottom: 13rem;
+  }
+
+  #forgot-password-content form button {
+    margin-bottom: 18rem;
+  }
+
+  #forgot-password-content form header h2 {
+    margin-bottom: .8rem;
+    font-size: 3.6rem ;
+  }
+}
