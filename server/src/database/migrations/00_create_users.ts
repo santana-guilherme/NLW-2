@@ -8,6 +8,8 @@ export async function up(knex: Knex) {
     table.string('email').notNullable();
     table.string('password').notNullable();
     table.string('avatar');
+    table.string('resetPasswordToken');
+    table.dateTime('resetPasswordTokenExpires');
   })
 }
 

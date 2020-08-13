@@ -15,5 +15,6 @@ routes.post('/connections', connectionsController.create);
 routes.get('/connections', connectionsController.index);
 routes.post('/register', usersController.create);
 routes.post('/login', usersController.login);
+routes.post('/forgot-password', usersController.forgotPassword);
 
 export default routes;
