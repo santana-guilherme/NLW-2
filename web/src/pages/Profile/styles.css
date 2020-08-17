@@ -1,0 +1,141 @@
+#profile-page {
+  width: 100vw;
+  height: 100vh;
+  padding:0;
+}
+
+#profile-page #profile-content {
+  width: 100%;
+  height: 100%;
+}
+
+#profile-content .page-header .header-content #user-presentation {
+  height: 25rem;
+}
+
+#profile-content .page-header .header-content  #user-basic-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: var(--color-title-in-primary)
+}
+
+#profile-content .page-header .header-content #user-basic-info h3 {
+  font: 700 2.4rem Archivo; /*3.6rem*/
+}
+
+#profile-content .page-header .header-content #user-basic-info p {
+  font: 400 2rem Poppins;
+  line-height: 2rem;
+  margin: 1rem 0 0 0;
+}
+
+#profile-content .page-header .header-content #user-basic-info img {
+  width: 15rem;
+  height: 15rem;
+  border-radius: 50%;
+  margin-bottom: 3.2rem;
+}
+
+#profile-content .page-header #user-presentation {
+  width: 100%;
+  height: 100%;
+  background-image: url('../../assets//images/Background.svg');
+  background-size: 100% ;
+}
+
+#profile-content main {
+  background: var(--color-box-base);
+  width: 90%;
+  max-width: 74rem;
+  border-radius: .8rem;
+  margin: -3.2rem auto 3.2rem;
+  padding-top: 6.4rem;
+  overflow: hidden;
+}
+
+#profile-content main fieldset {
+  border: 0;
+  padding: 0 2.4rem;
+}
+
+#profile-content main fieldset + fieldset {
+  margin-top: 6.4rem;
+}
+
+#profile-content main fieldset legend {
+  font: 700 2.4rem Archivo;
+  color: var(--color-text-title);
+  margin-bottom: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 1.6rem;
+  border-bottom: 1px solid var(--color-line-in-white);
+}
+
+#profile-content main fieldset legend button {
+  background: none;
+  border: 0;
+  color: var(--color-primary);
+  font: 700 1.6rem Archivo;
+  cursor: pointer;
+  transition: color .2s;
+  float: right;
+}
+
+#profile-content main fieldset legend button:hover {
+  color: var(--color-primary-dark)
+}
+
+#profile-content main fieldset .input-block + .textarea-block,
+#profile-content main fieldset .select-block + .input-block {
+  margin-top: 2.4rem;
+}
+
+#profile-content main label {
+  color: var(--color-text-complement)
+}
+
+#profile-content main footer {
+  padding: 4rem 2.4rem;
+  background: var(--color-box-footer);
+  border-top: 1px solid var(--color-line-in-white);
+  margin-top: 6.4rem;
+}
+
+#profile-content main footer p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size:  1.4rem;
+  line-height: 2.4rem;
+  color: var(--color-text-complement);
+}
+
+#profile-content main footer img {
+  margin-right: 2rem;
+}
+
+#profile-content main footer button {
+  width: 100%;
+  height: 5.6rem;
+  background: var(--color-secundary);
+  color: var(--color-button-text);
+  border: 0;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  font: 700 1.6rem Archivo;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background-color .2s;
+  margin-top: 3.2rem;
+}
+
+#profile-content main footer button:hover {
+  background: var(--color-secundary-dark);
+}
