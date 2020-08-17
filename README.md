@@ -13,10 +13,10 @@
 
   <img alt="last commit" src="https://img.shields.io/github/last-commit/GDSRS/NLW-2?color=79dd2c&style=for-the-badge"/>
 
-  <img alt="node version" src="https://img.shields.io/static/v1?label=license&message=MIT&color=79dd2c&style=for-the-badge"/>
+  <img alt="license" src="https://img.shields.io/static/v1?label=license&message=MIT&color=79dd2c&style=for-the-badge"/>
   <br/>
 
-  <img alt="node version" src="https://img.shields.io/static/v1?label=made by&message=Guilherme Sant'Ana&color=8257e5&style=for-the-badge"/>
+  <img alt="made by" src="https://img.shields.io/static/v1?label=made%20by&message=Guilherme%20Sant'Ana&color=8257e5&style=for-the-badge"/>
 </p>
 
 ## Sobre
