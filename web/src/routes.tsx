@@ -10,7 +10,9 @@ import PrivateRoute from './components/PrivateRoute';
 import RestrictedRoute from './components/RestrictedRoute';
 import CompleteRegister from './pages/CompleteRegister';
 import ForgotPassword from './pages/ForgotPassword';
-import CompleteForgotPassword from './pages/CompletForgotPassword';
+import CompleteForgotPassword from './pages/CompleteForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import CompleteResetPassword from './pages/CompleteResetPassword';
 
 
 function Routes() {
@@ -26,6 +28,9 @@ function Routes() {
       <PrivateRoute exact path="/" component={Landing} />
       <PrivateRoute path="/study" component={TeacherList} />
       <PrivateRoute path="/give-classes" component={TeacherForm} />
+
+      <Route path="/reset-password/:token" component={ResetPassword} />
+      <Route path="/complete-reset-password" component={CompleteResetPassword} />
     </BrowserRouter>
   );
 }

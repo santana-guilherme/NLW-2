@@ -1,0 +1,114 @@
+#reset-password-page {
+  width: 100vw;
+  height: 100vh;
+}
+
+#reset-password-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#reset-password-content form {
+  height: 50%;
+  min-height: 40rem;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+}
+
+#reset-password-content form header a  {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+#reset-password-content form header h2 {
+  margin-bottom: .8rem;
+  font: 600 2.6rem Poppins;
+}
+
+#reset-password-content form header p {
+  width: 80%;
+  font: 500 1.6rem Poppins;
+  line-height: 2.4rem;
+  margin-bottom: 1.5rem;
+}
+
+#reset-password-content form .input-block input,
+#reset-password-content form .input-block{
+  font: 600 1.4rem Poppins;
+  margin: 0;
+}
+
+#reset-password-content form .input-block:first-child input {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+#reset-password-content form .input-block + .input-block input {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+#reset-password-content form button {
+  width: 100%;
+  border: 0;
+  /*background-color: var(--color-secundary);*/
+  border-radius: .8rem;
+  font: 700 1.6rem Archivo;
+  line-height: 2.6rem;
+  min-height: 5.6rem;
+  color: white;
+  background-color: var(--color-secundary);
+}
+#reset-password-content form .input-block,
+#reset-password-content form header {
+  width: 100%;
+}
+
+#reset-password-content form button:disabled {
+  background-color: #DCDCE5;
+  color: var(--color-text-complement);
+}
+
+@media(min-width: 700px) {
+  #reset-password-content{
+    flex-direction: row-reverse;
+    max-width: 100%;
+  }
+
+  #reset-password-content form {
+    align-items: center;
+    height: 100%;
+    width: 50%;
+    padding: 18rem 0 0 0;
+  }
+
+  #reset-password-content form #input-container,
+  #reset-password-content form header,
+  #reset-password-content form button {
+    width: 60%;
+  }
+
+  #reset-password-content form .input-block:last-child {
+    margin-bottom: 4rem;
+  }
+
+  #reset-password-content form #input-container {
+    margin-top: 0;
+  }
+
+  #reset-password-content form button {
+    margin-bottom: 18rem;
+  }
+
+  #reset-password-content form header h2 {
+    margin-bottom: .8rem;
+    font-size: 3.6rem ;
+  }
+}

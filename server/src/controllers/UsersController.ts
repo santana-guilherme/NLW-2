@@ -1,8 +1,10 @@
-import e, { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import db from '../database/connection';
-import { hash, compare } from 'bcrypt';
+import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import crypto from 'crypto';
+
+import { hashPassword } from '../utils/auth';
 import mailer from '../modules/mail';
 
 export default class UsersController {
@@ -15,8 +17,8 @@ export default class UsersController {
       return res.status(400).json({ error: 'Email already in use' })
     }
 
-    const randomSalt = Math.ceil(Math.random() * 10)
-    const passwordHash = await hash(password, randomSalt)
+    
+    const passwordHash = await hashPassword(password)
 
     await db('users').insert({
       email,
@@ -57,22 +59,26 @@ export default class UsersController {
     try {
       const user = await db('users').where('users.email', '=', email).first()
       if (!user)
-        return res.status(400).json({
+        return res.status(500).json({
           error: "No user found with that email :-("
         });
+
+      if (user.resetPasswordToken && new Date(user.tokenExpirationTime) > new Date()) {
+        return res.status(500).json({
+          error: "This user already requested a password reset"
+        });
+      } //else: token is already expired, let user create another
 
       // cria um token com validade de uma hora
       const resetPasswordToken = crypto.randomBytes(20).toString('hex');
       const date = new Date()
       const tokenExpirationTime = new Date(date.valueOf() + date.getTimezoneOffset() * 60000);
-      tokenExpirationTime.setHours(tokenExpirationTime.getHours() - 3 + 1) //+1h
+      tokenExpirationTime.setHours(tokenExpirationTime.getHours() + 1) //+1h
       // Adiciona o token a tabela de usuário
       await db('users').where({ id: user.id }).update({
         resetPasswordToken,
         resetPasswordTokenExpires: tokenExpirationTime
       })
-
-      const updatedUser = await db('users').where({ id: user.id }).first()
 
       //mandar e email
       const mailOptions = {
@@ -81,18 +87,18 @@ export default class UsersController {
         template: 'auth/forgot_password',
         context: {
           username: user.name,
-          token: resetPasswordToken
+          link: `http://localhost:3000/reset-password/${resetPasswordToken}`
         }
       }
 
       mailer.sendMail(mailOptions, (err) => {
-        if(err) {
+        if (err) {
           console.log(err)
           return res.status(500).json({
             error: 'Could not send forgot password email :-('
           })
         }
-        res.status(200).send({message: 'Reset password email was send ;-)'})
+        res.status(200).send({ message: 'Reset password email was send ;-)' })
       })
     } catch (err) {
       console.log('Error', err);
@@ -100,6 +106,44 @@ export default class UsersController {
         error: err
       })
     }
-    //mandar alguma coisa com para o email do usuário
+  }
+
+  async resetPassword(req: Request, res: Response) {
+    const { token, newPassword } = req.body
+
+    try {
+      let user = await db('users').where({resetPasswordToken: token}).first()//fix
+
+      if(!user) {
+        return res.status(400).json({
+          error: 'Invalid token'
+        })
+      }
+
+      if(new Date(user.resetPasswordTokenExpires) < new Date() ) {
+        return res.status(400).json({
+          error: 'Token has expired'
+        })
+      }
+
+      
+      const newPasswordHash = await hashPassword(newPassword)
+
+      await db('users').where({ id: user.id }).update({
+        password: newPasswordHash,
+        resetPasswordToken: null,
+        resetPasswordTokenExpires: null
+      })
+
+      res.status(200).json({
+        message: 'Password successfully reset'
+      }).send()
+
+    } catch(err) {
+      console.log('EXCEPTION ERROR: ', err)
+      return res.status(501).json({
+        error: `An erro has occurred\n${err}`
+      })
+    }
   }
 }

@@ -14,6 +14,7 @@
 
 #forgot-password-content form {
   height: 50%;
+  min-height: 40rem;
   width: 80%;
 }
 
@@ -76,7 +77,7 @@
     align-items: center;
     height: 100%;
     width: 50%;
-    padding: 0;
+    padding: 6rem 0 0 0;
   }
 
   #forgot-password-content form .input-block,
@@ -86,7 +87,7 @@
   }
 
   #forgot-password-content form header a img {
-    margin-bottom: 13rem;
+    margin-bottom: 6rem;
   }
 
   #forgot-password-content form button {

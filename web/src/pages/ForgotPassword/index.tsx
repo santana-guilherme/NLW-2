@@ -1,5 +1,5 @@
 import React, { useState, FormEvent } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import LogoContainer from '../../components/LogoContainer';
 import Input from '../../components/Input';
 
@@ -9,6 +9,7 @@ import './styles.css'
 import api from '../../services/api';
 
 function ForgotPassword() {
+  const history = useHistory()
   const [email, setEmail] = useState('')
 
   async function handleSubmit(e: FormEvent) {
@@ -16,7 +17,7 @@ function ForgotPassword() {
     api.post('/forgot-password', {
       email
     }).then(() => {
-      //mandar para tela de confirmação
+      history.push('/forgot-password-complete')
     })
   }
 
