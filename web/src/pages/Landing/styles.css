@@ -32,8 +32,8 @@
     align-items: center;
 }
 
-#top #user-header img {
-  cursor: pointer;
+#top #user-header a {
+  text-decoration: none;
 }
 
 #top #user-header #user-info {
@@ -46,6 +46,7 @@
   width: 4.5rem;
   height: 4.5rem;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 #top #user-header #user-info p {
@@ -53,6 +54,7 @@
     margin-right: 1rem;
     font: 600 1.6rem Poppins;
     line-height: 3rem;
+    color: var(--color-text-in-primary)
 }
 
 .hero-image {

@@ -17,7 +17,6 @@ export default class UsersController {
       return res.status(400).json({ error: 'Email already in use' })
     }
 
-    
     const passwordHash = await hashPassword(password)
 
     await db('users').insert({

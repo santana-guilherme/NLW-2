@@ -36,10 +36,12 @@ function Landing() {
 
         <div id="top">
           <div id="user-header">
-            <div id="user-info">
-              <img src="http://github.com/GDSRS.png" alt="foto do usuário" />
-              <p>{`${user?.name} ${user?.last_name}`}</p>
-            </div>
+            <Link to='/profile'>
+              <div id="user-info">
+                <img src="http://github.com/GDSRS.png" alt="foto do usuário" />
+                <p>{`${user?.name} ${user?.last_name}`}</p>
+              </div>
+            </Link>
             <img src={logoutIcon} alt="botão sair" onClick={handleLogOut} />
           </div>
 
