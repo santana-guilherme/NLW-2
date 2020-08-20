@@ -72,14 +72,12 @@ export default class TeachersController {
 
 
       classes.map(async (cls: any) => {
-        console.log(cls)
         await db('classes').update({
           cost: cls.cost,
           subject: cls.subject
         }).where({ id: cls.id })
 
         await cls.schedules.map(async (schedule: any) => {
-          console.log(schedule)
           await db('class_schedule').delete().where({class_id: cls.id})
           await db('class_schedule').insert({
             week_day: schedule.week_day,
@@ -90,7 +88,6 @@ export default class TeachersController {
         })
       })
 
-      console.log('END TRANSACTIONS')
       //await db.commit();
       res.status(204).send()
     } catch (err) {

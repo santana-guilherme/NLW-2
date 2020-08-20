@@ -1,5 +1,6 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useState, useEffect, FormEvent, useImperativeHandle } from 'react';
 import { AxiosResponse } from 'axios';
+import { useHistory } from 'react-router-dom'
 
 import PageHeader from '../../components/PageHeader';
 import Input from '../../components/Input';
@@ -36,8 +37,9 @@ interface TeacherInfoInterface {
 }
 
 function Profile() {
+  const { goBack } = useHistory()
 
-  const { user } = useAuth()
+  const { user, updateUserInfo } = useAuth()
   const [name, setName] = useState('');
   const [last_name, setLastName] = useState('');
   const [avatar, setAvatar] = useState('');
@@ -49,20 +51,8 @@ function Profile() {
 
   useEffect(() => {
     getTeacherInfo()
-    console.log('USE EFFECT')
     setUserInformation()
   }, [])
-
-
-  async function updateUserInfo() {
-    const response = await api.put('/update-user', {
-      name,
-      last_name,
-      avatar
-    })
-
-    return response.status
-  }
 
   async function updateTeacherInfo() {
     const response = await api.put('/update-teacher', {
@@ -76,15 +66,16 @@ function Profile() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    var status = await updateUserInfo();
-    if (status === 204) {
-      console.log(status)
-      status = await updateTeacherInfo();
-      if (status !== 204)
-        console.log('Error while updating teacher information')
+    const wasUpdated = await updateUserInfo(name, last_name, avatar)
+    if (wasUpdated) {
+      const responseStatus = await updateTeacherInfo()
+      if(responseStatus !== 204)
+        console.log('Error while updating teacher information: ')
     }
     else
       console.log('Error while updating user information')
+
+    goBack()
   }
 
   function setUserInformation() {
@@ -160,7 +151,7 @@ function Profile() {
                 alt='foto de perfil'
               />
             </div>
-            <h3>{name} {last_name}</h3>
+            <h3>{user?.name} {user?.last_name}</h3>
             {classes?.map((cls, index) => {
               return <p key={index}>{cls.subject}</p>
             })}
