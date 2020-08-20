@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import { AxiosResponse } from 'axios';
 
 import PageHeader from '../../components/PageHeader';
@@ -11,6 +11,7 @@ import api from '../../services/api';
 import classesJson from '../../resources/classes.json'
 import week_days from '../../resources/week_days.json'
 import convertMinutesToHours from '../../utils/convertMinutesToHour'
+import cameraIcon from '../../assets/images/icons/camera-icon.svg'
 
 import './styles.css'
 
@@ -48,6 +49,7 @@ function Profile() {
 
   useEffect(() => {
     getTeacherInfo()
+    console.log('USE EFFECT')
     setUserInformation()
   }, [])
 
@@ -58,6 +60,8 @@ function Profile() {
       last_name,
       avatar
     })
+
+    return response.status
   }
 
   async function updateTeacherInfo() {
@@ -66,10 +70,25 @@ function Profile() {
       bio,
       classes
     })
+
+    return response.status
+  }
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+    var status = await updateUserInfo();
+    if (status === 204) {
+      console.log(status)
+      status = await updateTeacherInfo();
+      if (status !== 204)
+        console.log('Error while updating teacher information')
+    }
+    else
+      console.log('Error while updating user information')
   }
 
   function setUserInformation() {
-    if(user !== null){
+    if (user !== null) {
       setName(user.name)
       setLastName(user.last_name)
       setAvatar(user.avatar)
@@ -86,7 +105,6 @@ function Profile() {
   async function getTeacherInfo() {
     const response = await api.get('/teacher-info')
     setTeacherInformation(response)
-    console.log('CLASSES: ', response.data.classes)
   }
 
   function convertTimesInSchedule(classesObj: ClassesInterface[]) {
@@ -98,7 +116,7 @@ function Profile() {
           to: convertMinutesToHours(schedule.to)
         }
       })
-      return {...cls, schedules: updatedSchedules}
+      return { ...cls, schedules: updatedSchedules }
     })
     setClasses(updatedClasses)
   }
@@ -128,55 +146,72 @@ function Profile() {
   return (
     <div id="profile-page">
       <div id="profile-content" className="container">
-        
+
         <PageHeader topTitle="Meu perfil">
           <div id="user-presentation">
             <div id="user-basic-info">
-              <img src={avatar ? avatar : "http://github.com/GDSRS.png"} alt='foto de perfil' />
-              <h3>{name} {last_name}</h3>
-              {classes?.map((cls, index) => {
-                return <p key={index}>{cls.subject}</p>
-              })}
+              <img
+                src={cameraIcon}
+                alt='editar foto de perfil'
+                onClick={() => console.log('Click')}
+              />
+              <img
+                src={avatar ? avatar : "http://github.com/GDSRS.png"}
+                alt='foto de perfil'
+              />
             </div>
+            <h3>{name} {last_name}</h3>
+            {classes?.map((cls, index) => {
+              return <p key={index}>{cls.subject}</p>
+            })}
           </div>
         </PageHeader>
 
         <main>
-          <form onSubmit={() => { }}>
+          <form onSubmit={handleSubmit}>
             <fieldset>
               <legend>Seus dados</legend>
-              <Input name="name"
-                label="Nome"
-                value={name}
-                onChange={(e) => { setName(e.target.value) }}
-              />
+              <div className="teacher-info-name">
+                <Input name="name"
+                  id="name"
+                  label="Nome"
+                  value={name}
+                  onChange={(e) => { setName(e.target.value) }}
+                />
 
-              <Input name="last_name"
-                label="Sobrenome"
-                value={last_name}
-                onChange={(e) => { setLastName(e.target.value) }}
-              />
+                <Input name="last_name"
+                  id="last_name"
+                  label="Sobrenome"
+                  value={last_name}
+                  onChange={(e) => { setLastName(e.target.value) }}
+                />
 
-              <Input name="email"
-                label="E-mail"
-                value={user?.email || ''}
-                readOnly
-              />
+              </div>
 
-              <Input
-                name="whatsapp"
-                value={whatsapp}
-                label="Whatsapp"
-                onChange={(e) => { setWhatsapp(e.target.value) }}
-              />
+              <div className="teacher-info-contact">
+                <Input name="email"
+                  id="email"
+                  label="E-mail"
+                  value={user?.email || ''}
+                  readOnly
+                />
+
+                <Input
+                  name="whatsapp"
+                  id="whatsapp"
+                  value={whatsapp}
+                  label="Whatsapp"
+                  onChange={(e) => { setWhatsapp(e.target.value) }}
+                />
+              </div>
 
               <Textarea
                 name="bio"
+                id="bio"
                 value={bio}
                 label="Biografia"
                 onChange={(e) => { setBio(e.target.value) }}
               />
-
             </fieldset>
 
 
@@ -185,19 +220,22 @@ function Profile() {
                 <React.Fragment key={index}>
                   <fieldset>
                     <legend>Sobre a aula</legend>
-                    <Select
-                      name="subject"
-                      value={cls.subject}
-                      label="Matéria"
-                      options={classesJson}
-                      onChange={(e) => { updateClassField(index, e.target.value, 'subject') }}
-                    />
-                    <Input
-                      name="cost"
-                      value={cls.cost || ''}
-                      label="Custo da sua hora por aula"
-                      onChange={(e) => { updateClassField(index, e.target.value, 'cost') }}
-                    />
+                    <div className='class-info'>
+                      <Select
+                        name="subject"
+                        value={cls.subject}
+                        label="Matéria"
+                        options={classesJson}
+                        onChange={(e) => { updateClassField(index, e.target.value, 'subject') }}
+                      />
+                      <Input
+                        name="cost"
+                        value={cls.cost || ''}
+                        prefix="çalskdfjçalskdj"
+                        label="Custo da sua hora por aula"
+                        onChange={(e) => { updateClassField(index, e.target.value, 'cost') }}
+                      />
+                    </div>
                   </fieldset>
 
                   <fieldset>

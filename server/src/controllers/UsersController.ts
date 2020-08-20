@@ -163,9 +163,7 @@ export default class UsersController {
       })
   
       if(response > 0) {
-        res.status(200).json({
-          message: "User was successfully updated ;-)"
-        }).send()
+        res.status(204).send()
       }
       
 

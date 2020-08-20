@@ -10,39 +10,51 @@
 }
 
 #profile-content .page-header .header-content #user-presentation {
+  background-image: url('../../assets//images/Background.svg');
+  background-size: 100% ;
+}
+
+#profile-content .page-header #user-presentation {
+  width: 100%;
   height: 25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center ;
+  text-align: center;
+  color: var(--color-title-in-primary);
 }
 
 #profile-content .page-header .header-content  #user-basic-info {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  color: var(--color-title-in-primary)
+  position:relative;
 }
 
-#profile-content .page-header .header-content #user-basic-info h3 {
+#profile-content .header-content #user-presentation h3 {
   font: 700 2.4rem Archivo; /*3.6rem*/
 }
 
-#profile-content .page-header .header-content #user-basic-info p {
+#profile-content  .header-content #user-presentation p {
   font: 400 2rem Poppins;
   line-height: 2rem;
   margin: 1rem 0 0 0;
 }
 
-#profile-content .page-header .header-content #user-basic-info img {
+#profile-content .page-header .header-content #user-basic-info img:nth-child(2) {
   width: 15rem;
   height: 15rem;
   border-radius: 50%;
   margin-bottom: 3.2rem;
 }
 
-#profile-content .page-header #user-presentation {
-  width: 100%;
-  height: 100%;
-  background-image: url('../../assets//images/Background.svg');
-  background-size: 100% ;
+#profile-content .page-header .header-content #user-basic-info img:first-child {
+  position: absolute;
+  top: 10rem;
+  right: 0;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 #profile-content main {
@@ -60,8 +72,13 @@
   padding: 0 2.4rem;
 }
 
+
 #profile-content main fieldset + fieldset {
   margin-top: 6.4rem;
+}
+
+#profile-content main fieldset div + div {
+  margin-top: 3rem;
 }
 
 #profile-content main fieldset legend {
@@ -138,4 +155,70 @@
 
 #profile-content main footer button:hover {
   background: var(--color-secundary-dark);
+}
+
+@media(min-width: 700px) {
+  #profile-content {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  #profile-content .page-header {
+    height: 40rem;
+  }
+  #profile-content .page-header .header-content {
+    max-width: 100%;
+  }
+
+  #profile-content .page-header .header-content #user-presentation{
+    background-image: url('../../assets//images/Background-profile.svg');
+    background-size: 80% 100%;
+    height: 28rem;
+    max-height: 100%;
+  }
+
+  #profile-content main .teacher-info-name {
+    display: grid;
+    column-gap: 3.3rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  #profile-content main  {
+    max-width: 69.6rem;
+    padding: 6.4rem 2rem 0 2rem; 
+  }
+
+  #profile-content main .teacher-info-contact {
+    display: grid;
+    column-gap: 3.3rem;
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  #profile-content main .class-info {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 3.3rem;
+    grid-template-rows: 1fr;
+  }
+
+  #profile-content main .schedule-item {
+    display: grid;
+    grid-template-columns:  2fr 1fr 1fr;
+    column-gap: 1.6rem;
+    grid-template-rows: 1fr;
+  }
+
+  #profile-content main .schedule-item + .schedule-item {
+    margin-top: 1rem;
+  }
+
+  #profile-content main .teacher-info-contact .input-block,
+  #profile-content main .teacher-info-name .input-block,
+  #profile-content main .class-info .input-block,
+  #profile-content main .schedule-item .input-block {
+    margin-top: 0 !important;
+  }
+
 }
