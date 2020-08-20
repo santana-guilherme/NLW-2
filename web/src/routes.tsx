@@ -31,7 +31,7 @@ function Routes() {
       <PrivateRoute exact path="/" component={Landing} />
       <PrivateRoute path="/study" component={TeacherList} />
       <PrivateRoute path="/give-classes" component={TeacherForm} />
-      <Route path='/profile' component={Profile}/>
+      <PrivateRoute path='/profile' component={Profile}/>
     </BrowserRouter>
   );
 }

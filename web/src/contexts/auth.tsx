@@ -42,21 +42,28 @@ export const AuthProvider: React.FC = ({ children }) => {
   }
 
   async function logIn(email: string, password: string) {
-    const response = await api.post('/login', {
-      email,
-      password
-    });
 
-    if (response.status === 200) {
-      const { user, token } = response.data
-      localStorage.setItem('@Proffys:user', JSON.stringify(user))
-      localStorage.setItem('@Proffys:token', token)
-      setUser(user);
-      api.defaults.headers['Authorization'] = `Bearer ${token}`
+    try {
+      const response = await api.post('/login', {
+        email,
+        password
+      });
 
-    } else {
-      alert(`error ${response.data.error}`)
+      if (response.status === 200) {
+        const { user, token } = response.data
+        localStorage.setItem('@Proffys:user', JSON.stringify(user))
+        localStorage.setItem('@Proffys:token', token)
+        setUser(user);
+        api.defaults.headers['Authorization'] = `Bearer ${token}`
+
+      } else {
+        alert(`error ${response.data.error}`)
+      }
+
+    } catch (error) {
+      alert(error)
     }
+
   }
 
   function logOut() {

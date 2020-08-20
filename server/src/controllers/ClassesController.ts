@@ -56,14 +56,16 @@ export default class ClassesController {
 
     try {
       var user_id = getUserIdFromToken(request.headers.authorization)
-      
       if (user_id === "") {
         return response.status(400).json({
           error: 'Missing token'
         })
       }
 
-      const teachers = await db('teachers').where({ user_id });
+      console.log("search for teacher")
+      const teachers = [] as any
+      //const teachers = await db('teachers').where({ user_id: user_id });
+      //console.log("teachers found: ", teachers)
       var teacher_id = 0;
 
       if (teachers.length > 0) {

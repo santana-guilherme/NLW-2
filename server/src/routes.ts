@@ -20,6 +20,8 @@ routes.post('/register', usersController.create);
 routes.post('/login', usersController.login);
 routes.post('/forgot-password', usersController.forgotPassword);
 routes.post('/reset-password', usersController.resetPassword);
+routes.put('/update-user', usersController.update);
 routes.get('/teacher-info', teachersController.teacherInfo);
+routes.put('/update-teacher', teachersController.update);
 
 export default routes;

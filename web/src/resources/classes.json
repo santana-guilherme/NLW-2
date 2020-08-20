@@ -1,0 +1,42 @@
+[
+  {
+    "value": "Artes",
+    "label": "Artes"
+  },
+  {
+    "value": "Química",
+    "label": "Química"
+  },
+  {
+    "value": "Biologia",
+    "label": "Biologia"
+  },
+  {
+    "value": "Ciências",
+    "label": "Ciências"
+  },
+  {
+    "value": "Educação física",
+    "label": "Educação física"
+  },
+  {
+    "value": "Física",
+    "label": "Física"
+  },
+  {
+    "value": "Geografia",
+    "label": "Geografia"
+  },
+  {
+    "value": "Históra",
+    "label": "Históra"
+  },
+  {
+    "value": "Matemática",
+    "label": "Matemática"
+  },
+  {
+    "value": "Português",
+    "label": "Português"
+  }
+]

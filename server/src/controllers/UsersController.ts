@@ -4,7 +4,7 @@ import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import crypto from 'crypto';
 
-import { hashPassword } from '../utils/auth';
+import { hashPassword, getUserIdFromToken } from '../utils/auth';
 import mailer from '../modules/mail';
 
 export default class UsersController {
@@ -143,6 +143,34 @@ export default class UsersController {
       return res.status(501).json({
         error: `An erro has occurred\n${err}`
       })
+    }
+  }
+
+  async update(req: Request, res: Response) {
+    const user_id = getUserIdFromToken(req.headers.authorization)
+    if(user_id === '') {
+      return res.status(400).json({
+        error: 'Missing token'
+      })
+    }
+    
+    try {
+      const { name, last_name, avatar } = req.body
+      const response = await db('users').where({id: user_id}).update({
+        name,
+        last_name,
+        avatar
+      })
+  
+      if(response > 0) {
+        res.status(200).json({
+          message: "User was successfully updated ;-)"
+        }).send()
+      }
+      
+
+    } catch(err) {
+      console.log('ERROR: ', err)
     }
   }
 }

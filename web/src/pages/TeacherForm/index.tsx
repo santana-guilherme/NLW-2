@@ -173,9 +173,9 @@ function TeacherForm() {
           <footer>
             <p>
               <img src={warningIcon} alt="Aviso importante" />
-            Importante! <br />
-            Preencha todos os dados
-          </p>
+              Importante! <br />
+              Preencha todos os dados
+            </p>
 
             <button type='submit'>
               Salvar Cadastro
