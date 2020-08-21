@@ -5,14 +5,14 @@ import api from '../../services/api'
 import logoImg from '../../assets/images/logo.svg';
 import landingImg from '../../assets/images/landing.svg';
 import logoutIcon from '../../assets/images/icons/logout-icon.svg';
-
+import defaultUserAvatar from '../../assets/images/default-user-avatar.png';
 
 import studyIcon from '../../assets/images/icons/study.svg';
 import giveClassesIcon from '../../assets/images/icons/give-classes.svg';
 import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg';
+import { useAuth } from '../../contexts/auth';
 
 import './styles.css';
-import { useAuth } from '../../contexts/auth';
 
 
 function Landing() {
@@ -38,7 +38,7 @@ function Landing() {
           <div id="user-header">
             <Link to='/profile'>
               <div id="user-info">
-                <img src="http://github.com/GDSRS.png" alt="foto do usuário" />
+                <img src={user?.avatar? user?.avatar :defaultUserAvatar} alt="foto do usuário" />
                 <p>{`${user?.name} ${user?.last_name}`}</p>
               </div>
             </Link>

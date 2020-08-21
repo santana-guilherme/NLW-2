@@ -61,8 +61,6 @@ export default class ClassesController {
           error: 'Missing token'
         })
       }
-
-      console.log("search for teacher")
       const teachers = [] as any
       //const teachers = await db('teachers').where({ user_id: user_id });
       //console.log("teachers found: ", teachers)

@@ -2,17 +2,20 @@ import React, { useState, useEffect, FormEvent, useImperativeHandle } from 'reac
 import { AxiosResponse } from 'axios';
 import { useHistory } from 'react-router-dom'
 
-import PageHeader from '../../components/PageHeader';
-import Input from '../../components/Input';
-import Textarea from '../../components/Textarea';
-import { useAuth } from '../../contexts/auth';
+
 import warningIcon from '../../assets/images/icons/warning.svg'
-import Select from '../../components/Select'
-import api from '../../services/api';
 import classesJson from '../../resources/classes.json'
 import week_days from '../../resources/week_days.json'
 import convertMinutesToHours from '../../utils/convertMinutesToHour'
 import cameraIcon from '../../assets/images/icons/camera-icon.svg'
+import defaultUserAvatar from '../../assets/images/default-user-avatar.png';
+
+import PageHeader from '../../components/PageHeader';
+import Input from '../../components/Input';
+import Textarea from '../../components/Textarea';
+import { useAuth } from '../../contexts/auth';
+import Select from '../../components/Select'
+import api from '../../services/api';
 
 import './styles.css'
 
@@ -22,6 +25,7 @@ interface ClassesInterface {
   cost: string;
   teacher_id?: number;
   schedules: {
+    id?: number
     week_day: string;
     from: number | string;
     to: number | string;
@@ -48,6 +52,8 @@ function Profile() {
   const [bio, setBio] = useState('');
   const [classes, setClasses] = useState([{}] as ClassesInterface[])
 
+  const [schedulesToDelete, setSchedulesToDelete] = useState<number[]>([])
+
 
   useEffect(() => {
     getTeacherInfo()
@@ -67,13 +73,18 @@ function Profile() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     const wasUpdated = await updateUserInfo(name, last_name, avatar)
-    if (wasUpdated) {
-      const responseStatus = await updateTeacherInfo()
-      if(responseStatus !== 204)
-        console.log('Error while updating teacher information: ')
+    if(!wasUpdated) {
+      alert('Error while updating user information')
+      return
     }
-    else
-      console.log('Error while updating user information')
+
+    if(classes[0].cost) {
+      const responseStatus = await updateTeacherInfo()
+      if (responseStatus !== 204){
+        alert('Error while updating teacher information: ')
+        return
+      }
+    }
 
     goBack()
   }
@@ -102,9 +113,11 @@ function Profile() {
     const updatedClasses = classesObj.map(cls => {
       const updatedSchedules = cls.schedules?.map(schedule => {
         return {
+          id: schedule.id,
           week_day: schedule.week_day,
           from: convertMinutesToHours(schedule.from),
-          to: convertMinutesToHours(schedule.to)
+          to: convertMinutesToHours(schedule.to),
+          class_id: schedule.class_id
         }
       })
       return { ...cls, schedules: updatedSchedules }
@@ -134,6 +147,29 @@ function Profile() {
     updateClassField(classIndex, newSchedules, 'schedules')
   }
 
+  function addEmptySchedule(classIndex: number) {
+    classes[classIndex].schedules.push({
+      week_day: "", to: "", from: "", class_id: classes[classIndex].id
+    })
+
+    const newEmptySchedule = classes[classIndex].schedules
+
+    updateClassField(classIndex, newEmptySchedule, 'schedules')
+  }
+
+  function removeSchedule(classIndex: number, scheduleIndex: number) {
+    const scheduleId = classes[classIndex].schedules[scheduleIndex].id
+    if(scheduleId !== undefined) {
+      setSchedulesToDelete([...schedulesToDelete, scheduleId])
+    }
+
+    const newSchedules = classes[classIndex].schedules.filter((s, index) => {
+      return index !== scheduleIndex
+    })
+
+    updateClassField(classIndex, newSchedules, 'schedules')
+  }
+
   return (
     <div id="profile-page">
       <div id="profile-content" className="container">
@@ -147,7 +183,7 @@ function Profile() {
                 onClick={() => console.log('Click')}
               />
               <img
-                src={avatar ? avatar : "http://github.com/GDSRS.png"}
+                src={avatar ? avatar : defaultUserAvatar}
                 alt='foto de perfil'
               />
             </div>
@@ -187,26 +223,30 @@ function Profile() {
                   readOnly
                 />
 
-                <Input
-                  name="whatsapp"
-                  id="whatsapp"
-                  value={whatsapp}
-                  label="Whatsapp"
-                  onChange={(e) => { setWhatsapp(e.target.value) }}
-                />
+                {classes[0].cost &&
+                  <Input
+                    name="whatsapp"
+                    id="whatsapp"
+                    value={whatsapp}
+                    label="Whatsapp"
+                    onChange={(e) => { setWhatsapp(e.target.value) }}
+                  />
+                }
               </div>
 
-              <Textarea
-                name="bio"
-                id="bio"
-                value={bio}
-                label="Biografia"
-                onChange={(e) => { setBio(e.target.value) }}
-              />
+              {classes[0].cost &&
+                <Textarea
+                  name="bio"
+                  id="bio"
+                  value={bio}
+                  label="Biografia"
+                  onChange={(e) => { setBio(e.target.value) }}
+                />
+              }
             </fieldset>
 
 
-            {classes?.map((cls, index) => {
+            {classes[0].cost && classes?.map((cls, index) => {
               return (
                 <React.Fragment key={index}>
                   <fieldset>
@@ -232,35 +272,43 @@ function Profile() {
                   <fieldset>
                     <legend>
                       Horários disponíveis
-                      <button type="button" onClick={() => { }}>
+                      <button type="button" onClick={() => addEmptySchedule(index)}>
                         + Novo Horário
                       </button>
                     </legend>
                     {cls.schedules?.map((scheduleItem, scheduleIndex) => {
                       return (
-                        <div key={scheduleItem.week_day} className="schedule-item">
-                          <Select
-                            name="week_day"
-                            value={scheduleItem.week_day}
-                            label="Dia da semana"
-                            options={week_days}
-                            onChange={e => updateClassSchedule(index, scheduleIndex, "week_day", e.target.value)}
-                          />
-                          <Input
-                            name="from"
-                            label="Das"
-                            type="time"
-                            value={scheduleItem.from}
-                            onChange={e => updateClassSchedule(index, scheduleIndex, "from", e.target.value)}
-                          />
-                          <Input
-                            name="to"
-                            label="Até"
-                            type="time"
-                            value={scheduleItem.to}
-                            onChange={e => updateClassSchedule(index, scheduleIndex, "to", e.target.value)}
-                          />
-                        </div>
+                        <>
+                          <div key={scheduleItem.week_day} className="schedule-item">
+                            <Select
+                              name="week_day"
+                              value={scheduleItem.week_day}
+                              label="Dia da semana"
+                              options={week_days}
+                              onChange={e => updateClassSchedule(index, scheduleIndex, "week_day", e.target.value)}
+                            />
+                            <Input
+                              name="from"
+                              label="Das"
+                              type="time"
+                              value={scheduleItem.from}
+                              onChange={e => updateClassSchedule(index, scheduleIndex, "from", e.target.value)}
+                            />
+                            <Input
+                              name="to"
+                              label="Até"
+                              type="time"
+                              value={scheduleItem.to}
+                              onChange={e => updateClassSchedule(index, scheduleIndex, "to", e.target.value)}
+                            />
+                          </div>
+                          <div className="deleteScheduleButton" key={scheduleIndex}>
+                            <hr/>
+                            <p onClick={() => removeSchedule(index, scheduleIndex)}>Excluir horário</p>
+                            <hr/>
+                          </div>
+                        </>
+
                       );
                     })}
                   </fieldset>
