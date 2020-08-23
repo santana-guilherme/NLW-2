@@ -55,26 +55,28 @@ export default class ClassesController {
     const tsx = await db.transaction();
 
     try {
-      var user_id = getUserIdFromToken(request.headers.authorization)
+      const user_id = getUserIdFromToken(request.headers.authorization)
       if (user_id === "") {
         return response.status(400).json({
           error: 'Missing token'
         })
       }
-      const teachers = [] as any
-      //const teachers = await db('teachers').where({ user_id: user_id });
-      //console.log("teachers found: ", teachers)
-      var teacher_id = 0;
 
-      if (teachers.length > 0) {
-        teacher_id = teachers[0].id
-      } else {
+      console.log('USERID', user_id)
+      
+      const teacher = await tsx('teachers').where({ user_id }).first();
+      console.log("teacher found: ", teacher)
+      
+      var teacher_id = 0
+      if (teacher === undefined) {
         const insertedTeachersIds = await tsx('teachers').insert({
           user_id,
           whatsapp,
           bio
         });
-        teacher_id = insertedTeachersIds[0];
+        teacher_id = insertedTeachersIds[0]
+      } else {
+        teacher_id = teacher.id
       }
 
       const insertedClassesIds = await tsx('classes').insert({
@@ -108,4 +110,6 @@ export default class ClassesController {
       })
     }
   }
+
+  
 }

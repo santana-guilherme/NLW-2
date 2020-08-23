@@ -3,6 +3,9 @@ import db from '../database/connection';
 import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import crypto from 'crypto';
+import * as dotenv from 'dotenv';
+
+dotenv.config()
 
 import { hashPassword, getUserIdFromToken } from '../utils/auth';
 import mailer from '../modules/mail';
@@ -40,7 +43,7 @@ export default class UsersController {
 
     const isPasswordCorrect = await compare(password, user.password)
     if (isPasswordCorrect) {
-      const jwt = sign({ id: user.id }, 'secret', { expiresIn: "1 days" })
+      const jwt = sign({ id: user.id }, process.env.TOKEN_SECRET as string, { expiresIn: "1 days" })
 
       return res.status(200).json({
         user,
@@ -111,21 +114,21 @@ export default class UsersController {
     const { token, newPassword } = req.body
 
     try {
-      let user = await db('users').where({resetPasswordToken: token}).first()//fix
+      let user = await db('users').where({ resetPasswordToken: token }).first()//fix
 
-      if(!user) {
+      if (!user) {
         return res.status(400).json({
           error: 'Invalid token'
         })
       }
 
-      if(new Date(user.resetPasswordTokenExpires) < new Date() ) {
+      if (new Date(user.resetPasswordTokenExpires) < new Date()) {
         return res.status(400).json({
           error: 'Token has expired'
         })
       }
 
-      
+
       const newPasswordHash = await hashPassword(newPassword)
 
       await db('users').where({ id: user.id }).update({
@@ -138,7 +141,7 @@ export default class UsersController {
         message: 'Password successfully reset'
       }).send()
 
-    } catch(err) {
+    } catch (err) {
       console.log('EXCEPTION ERROR: ', err)
       return res.status(501).json({
         error: `An erro has occurred\n${err}`
@@ -148,26 +151,26 @@ export default class UsersController {
 
   async update(req: Request, res: Response) {
     const user_id = getUserIdFromToken(req.headers.authorization)
-    if(user_id === '') {
+    if (user_id === '') {
       return res.status(400).json({
         error: 'Missing token'
       })
     }
-    
+
     try {
       const { name, last_name, avatar } = req.body
-      const response = await db('users').where({id: user_id}).update({
+      const response = await db('users').where({ id: user_id }).update({
         name,
         last_name,
         avatar
       })
-  
-      if(response > 0) {
+
+      if (response > 0) {
         res.status(204).send()
       }
-      
 
-    } catch(err) {
+
+    } catch (err) {
       console.log('ERROR: ', err)
     }
   }

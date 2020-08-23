@@ -1,4 +1,4 @@
-import { hash, compare } from 'bcrypt';
+import { hash } from 'bcrypt';
 import { decode } from 'jsonwebtoken';
 
 export async function hashPassword(password: string) {
@@ -7,7 +7,7 @@ export async function hashPassword(password: string) {
 }
 
 
-export function getUserIdFromToken(token: string| undefined) {
+export function getUserIdFromToken(token: string| undefined): string {
   token = token ? token.split("Bearer")[1].trim() : ""
   if(token === "") {
     return ""

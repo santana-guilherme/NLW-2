@@ -2,7 +2,6 @@ import React, { useState, useEffect, FormEvent, useImperativeHandle } from 'reac
 import { AxiosResponse } from 'axios';
 import { useHistory } from 'react-router-dom'
 
-
 import warningIcon from '../../assets/images/icons/warning.svg'
 import classesJson from '../../resources/classes.json'
 import week_days from '../../resources/week_days.json'
@@ -16,29 +15,9 @@ import Textarea from '../../components/Textarea';
 import { useAuth } from '../../contexts/auth';
 import Select from '../../components/Select'
 import api from '../../services/api';
+import { getAllTeacherInfo, ClassesInterface, TeacherInfoInterface } from '../../utils/teacher';
 
 import './styles.css'
-
-interface ClassesInterface {
-  id?: number;
-  subject: string;
-  cost: string;
-  teacher_id?: number;
-  schedules: {
-    id?: number
-    week_day: string;
-    from: number | string;
-    to: number | string;
-    class_id?: number;
-  }[];
-}
-
-interface TeacherInfoInterface {
-  whatsapp: string;
-  bio: string;
-  subject: string;
-  classes: ClassesInterface[]
-}
 
 function Profile() {
   const { goBack } = useHistory()
@@ -56,7 +35,7 @@ function Profile() {
 
 
   useEffect(() => {
-    getTeacherInfo()
+    getTeacher()
     setUserInformation()
   }, [])
 
@@ -73,14 +52,14 @@ function Profile() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     const wasUpdated = await updateUserInfo(name, last_name, avatar)
-    if(!wasUpdated) {
+    if (!wasUpdated) {
       alert('Error while updating user information')
       return
     }
 
-    if(classes[0].cost) {
+    if (classes[0].cost) {
       const responseStatus = await updateTeacherInfo()
-      if (responseStatus !== 204){
+      if (responseStatus !== 204) {
         alert('Error while updating teacher information: ')
         return
       }
@@ -97,16 +76,18 @@ function Profile() {
     }
   }
 
-  function setTeacherInformation(response: AxiosResponse<TeacherInfoInterface>) {
+  function setTeacherInformation(response: TeacherInfoInterface) {
     /* Set local variables with teacher information */
-    convertTimesInSchedule(response.data.classes)
-    setBio(response.data.bio)
-    setWhatsapp(response.data.whatsapp)
+    convertTimesInSchedule(response.classes)
+    setBio(response.bio)
+    setWhatsapp(response.whatsapp)
   }
 
-  async function getTeacherInfo() {
-    const response = await api.get('/teacher-info')
-    setTeacherInformation(response)
+  async function getTeacher() {
+    const response = await getAllTeacherInfo()
+    if(response){
+      setTeacherInformation(response)
+    }
   }
 
   function convertTimesInSchedule(classesObj: ClassesInterface[]) {
@@ -159,7 +140,7 @@ function Profile() {
 
   function removeSchedule(classIndex: number, scheduleIndex: number) {
     const scheduleId = classes[classIndex].schedules[scheduleIndex].id
-    if(scheduleId !== undefined) {
+    if (scheduleId !== undefined) {
       setSchedulesToDelete([...schedulesToDelete, scheduleId])
     }
 
@@ -303,9 +284,9 @@ function Profile() {
                             />
                           </div>
                           <div className="deleteScheduleButton" key={scheduleIndex}>
-                            <hr/>
+                            <hr />
                             <p onClick={() => removeSchedule(index, scheduleIndex)}>Excluir horário</p>
-                            <hr/>
+                            <hr />
                           </div>
                         </>
 

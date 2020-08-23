@@ -1,33 +1,22 @@
-import { Request, Response } from 'express';
-import { getUserIdFromToken } from '../utils/auth'
+import { Request, Response, response } from 'express';
 
 import db from '../database/connection';
 import convertHourToMinutes from '../utils/convertHourToMinutes';
 
 export default class TeachersController {
 
-  async teacherInfo(req: Request, res: Response) {
+  allTeacherInfo = async (req: Request, res: Response) => {
     //get all teacher information based on user_id
-    const user_id = getUserIdFromToken(req.headers.authorization)
-    if (user_id === "") {
-      return res.status(400).json({
-        error: 'Missing token'
-      })
-    }
+    const teacher = await this.getTeacher(req.user)
+    if (teacher.error)
+      return res.status(400).json(teacher)
 
     try {
-
-      var teacher = await db('teachers').where({ user_id }).first()
-      if (teacher === undefined) {
-        return res.status(400).json({
-          error: 'User is not a teacher'
-        })
-      }
       const classes = await db('classes')
         .where({ teacher_id: teacher.id })
 
-      var schedules: object[] = []
       for (let cls of classes) {
+        var schedules: object[] = []
         schedules.push(
           ...(await db('class_schedule')
             .where({ class_id: cls.id }))
@@ -48,19 +37,33 @@ export default class TeachersController {
     }
   }
 
-  update = async (req: Request, res: Response) => {
-    const user_id = getUserIdFromToken(req.headers.authorization)
-    if (user_id === '') {
-      return res.status(400).json({
-        error: 'Missing token'
-      })
+  getTeacher = async (user: any) => {
+    var teacher = await db('teachers').where({ user_id: user.id }).first()
+    if (teacher === undefined) {
+      return { error: 'User is not a teacher' }
     }
 
+    return teacher;
+  }
+
+  getTeacherInfo = async (req: Request, res: Response) => {
+    const teacher = await this.getTeacher(req?.user)
+    if (teacher.error !== undefined)
+      return res.status(400).json(teacher)
+
+    res.status(200).json(teacher).send()
+  }
+
+  update = async (req: Request, res: Response) => {
     //const db = await db.transaction()
 
     try {
       const { whatsapp, bio, classes } = req.body
-      const teacher = await db('teachers').where({ user_id }).first()
+      const teacher = await this.getTeacher(req.user)
+
+      if(teacher.error !== undefined) {
+        return res.status(400).json(teacher)
+      }
 
       var response = await db('teachers').where({ id: teacher.id }).update({
         whatsapp,

@@ -3,6 +3,7 @@ import ClassesController from './controllers/ClassesController';
 import ConnectionsController from './controllers/ConnectionsController';
 import UsersController from './controllers/UsersController';
 import TeachersController from './controllers/TeachersControllers';
+import { verifyToken } from './utils/verifyToken';
 
 
 const routes = express.Router();
@@ -12,16 +13,17 @@ const usersController = new UsersController();
 const teachersController = new TeachersController();
 
 //TODO: add middleware for token verification
-routes.post('/classes', classesController.create);
-routes.get('/classes', classesController.index);
-routes.post('/connections', connectionsController.create);
-routes.get('/connections', connectionsController.index);
+routes.post('/classes',verifyToken, classesController.create);
+routes.get('/classes',verifyToken, classesController.index);
+routes.post('/connections', verifyToken,connectionsController.create);
+routes.get('/connections',verifyToken, connectionsController.index);
 routes.post('/register', usersController.create);
 routes.post('/login', usersController.login);
 routes.post('/forgot-password', usersController.forgotPassword);
 routes.post('/reset-password', usersController.resetPassword);
-routes.put('/update-user', usersController.update);
-routes.get('/teacher-info', teachersController.teacherInfo);
-routes.put('/update-teacher', teachersController.update);
+routes.put('/update-user', verifyToken,usersController.update);
+routes.get('/all-teacher-info',verifyToken, teachersController.allTeacherInfo);
+routes.get('/teacher-info', verifyToken,teachersController.getTeacherInfo);
+routes.put('/update-teacher',verifyToken, teachersController.update);
 
 export default routes;
