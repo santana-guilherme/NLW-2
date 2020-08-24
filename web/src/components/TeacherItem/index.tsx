@@ -1,5 +1,6 @@
 import React from 'react';
 import whatsappIcon from '../../assets/images/icons/whatsapp.svg'
+import defaultTeacherAvatar from '../../assets/images/default-user-avatar.png'
 
 import './styles.css'
 import api from '../../services/api';
@@ -29,7 +30,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
     <article className="teacher-item">
       <header>
         <img
-          src={teacher.avatar}
+          src={teacher.avatar ? teacher.avatar : defaultTeacherAvatar}
           alt="foto de perfil"
         />
         <div>

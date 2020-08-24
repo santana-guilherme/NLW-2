@@ -38,20 +38,30 @@ export default class TeachersController {
   }
 
   getTeacher = async (user: any) => {
-    var teacher = await db('teachers').where({ user_id: user.id }).first()
-    if (teacher === undefined) {
-      return { error: 'User is not a teacher' }
-    }
+    try {
+      var teacher = await db('teachers').where({ user_id: user.id }).first()
+      if (teacher === undefined) {
+        return { error: 'User is not a teacher' }
+      }
 
-    return teacher;
+      return teacher;
+    } catch (err) {
+      console.log("ERROR: ", err)
+    }
   }
 
   getTeacherInfo = async (req: Request, res: Response) => {
-    const teacher = await this.getTeacher(req?.user)
-    if (teacher.error !== undefined)
-      return res.status(400).json(teacher)
+    try {
+      const teacher = await this.getTeacher(req?.user)
+      if (teacher.error !== undefined){
+        return res.status(400).json(teacher)
+      }
 
-    res.status(200).json(teacher).send()
+      res.status(200).json(teacher)
+    } catch(err) {
+      console.log('ERROR', err)
+    }
+    
   }
 
   update = async (req: Request, res: Response) => {
@@ -61,7 +71,7 @@ export default class TeachersController {
       const { whatsapp, bio, classes } = req.body
       const teacher = await this.getTeacher(req.user)
 
-      if(teacher.error !== undefined) {
+      if (teacher.error !== undefined) {
         return res.status(400).json(teacher)
       }
 
@@ -103,6 +113,7 @@ export default class TeachersController {
           }
         })
         await this.removeRemainingSchedules(cls)
+        await this.removeClassesWithoutSchedules(cls)
       })
       res.status(204).send()
     } catch (err) {
@@ -118,4 +129,14 @@ export default class TeachersController {
     const idsToRemove = allClasses.filter(sch => !sendedSchedules.includes(sch.id)).map(x => x.id)
     await db('class_schedule').delete().where(builder => builder.whereIn('id', idsToRemove))
   }
+
+  async removeClassesWithoutSchedules(cls: any) {
+    const schedules = cls.schedules.length
+    if (schedules === 0) {
+      console.log("Class without schedules", JSON.stringify(cls))
+      await db('classes').delete().where({ id: cls.id })
+    }
+  }
+
+
 }

@@ -11,7 +11,6 @@ export function verifyToken(req: any, res: Response, next: any) {
       return res.status(400).json({err})
     }
     req.user = user
-    console.log('Recognized USER: ', user)
     next()
   })
 }

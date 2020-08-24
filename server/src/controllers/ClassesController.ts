@@ -37,8 +37,9 @@ export default class ClassesController {
           .whereRaw('`class_schedule`.`to` > ??', [timeInMinutes])
       })
       .where('classes.subject', '=', subject)
-      .join('users', 'classes.user_id', '=', 'users.id')
-      .select(['classes.*', 'users.*'])
+      .join('teachers', 'classes.teacher_id', '=', 'teachers.id')
+      .join('users', 'teachers.user_id', '=', 'users.id')
+      .select(['classes.*', 'teachers.*', 'users.*'])
 
     return response.json(classes)
   }
@@ -62,10 +63,8 @@ export default class ClassesController {
         })
       }
 
-      console.log('USERID', user_id)
       
       const teacher = await tsx('teachers').where({ user_id }).first();
-      console.log("teacher found: ", teacher)
       
       var teacher_id = 0
       if (teacher === undefined) {

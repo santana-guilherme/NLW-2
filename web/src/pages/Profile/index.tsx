@@ -1,5 +1,4 @@
-import React, { useState, useEffect, FormEvent, useImperativeHandle } from 'react';
-import { AxiosResponse } from 'axios';
+import React, { useState, useEffect, FormEvent } from 'react';
 import { useHistory } from 'react-router-dom'
 
 import warningIcon from '../../assets/images/icons/warning.svg'
@@ -259,8 +258,8 @@ function Profile() {
                     </legend>
                     {cls.schedules?.map((scheduleItem, scheduleIndex) => {
                       return (
-                        <>
-                          <div key={scheduleItem.week_day} className="schedule-item">
+                        <React.Fragment key={scheduleIndex}>
+                          <div className="schedule-item">
                             <Select
                               name="week_day"
                               value={scheduleItem.week_day}
@@ -288,7 +287,7 @@ function Profile() {
                             <p onClick={() => removeSchedule(index, scheduleIndex)}>Excluir horário</p>
                             <hr />
                           </div>
-                        </>
+                        </React.Fragment>
 
                       );
                     })}

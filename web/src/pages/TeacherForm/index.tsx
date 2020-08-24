@@ -71,7 +71,7 @@ function TeacherForm() {
       schedule: scheduleItems
     }).then(() => {
       alert('Cadastro realizado com sucesso!')
-      history.push("/");
+      history.push("/complete-teacher");
     }).catch((err: ErrorEvent) => {
       alert('Erro no cadastro ' + err)
     })
