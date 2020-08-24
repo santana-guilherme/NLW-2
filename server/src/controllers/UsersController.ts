@@ -14,8 +14,15 @@ export default class UsersController {
 
   async create(req: Request, res: Response) {
     const { email, password, name, last_name, avatar } = req.body
+    var users = []
+    try{
+      users = await db('users').where({email})
 
-    const users = await db('users').where('users.email', '=', email)
+    }catch(err) {
+      console.log(err)
+      return res.status(400)
+    }
+
     if (users.length > 0) {
       return res.status(400).json({ error: 'Email already in use' })
     }

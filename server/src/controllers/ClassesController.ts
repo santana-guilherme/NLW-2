@@ -1,7 +1,5 @@
-import { Request, Response } from 'express';
-import { decode } from 'jsonwebtoken';
+import { Request, Response, response } from 'express';
 
-import { getUserIdFromToken } from '../utils/auth'
 import db from '../database/connection';
 import convertHourToMinutes from '../utils/convertHourToMinutes';
 
@@ -26,6 +24,10 @@ export default class ClassesController {
     const week_day = Number(filters.week_day);
     const time = filters.time as string;
 
+    var { page = 1, limit = 10 } = request.query
+    page = Number(page) > 0 ? Number(page): 1
+    limit = Number(limit)
+
     const timeInMinutes = convertHourToMinutes(time);
     const classes = await db('classes')
       .whereExists(function () {
@@ -35,7 +37,7 @@ export default class ClassesController {
           .whereRaw('`class_schedule`.`week_day` = ??', [week_day])
           .whereRaw('`class_schedule`.`from` <= ??', [timeInMinutes])
           .whereRaw('`class_schedule`.`to` > ??', [timeInMinutes])
-      })
+      }).limit(limit).offset( (page-1)*limit )
       .where('classes.subject', '=', subject)
       .join('teachers', 'classes.teacher_id', '=', 'teachers.id')
       .join('users', 'teachers.user_id', '=', 'users.id')
@@ -56,16 +58,11 @@ export default class ClassesController {
     const tsx = await db.transaction();
 
     try {
-      const user_id = getUserIdFromToken(request.headers.authorization)
-      if (user_id === "") {
-        return response.status(400).json({
-          error: 'Missing token'
-        })
-      }
-
-      
+      const user_id = request.user?.id
+      console.log('userId', user_id)
       const teacher = await tsx('teachers').where({ user_id }).first();
       
+      console.log('Teacher: ', teacher)
       var teacher_id = 0
       if (teacher === undefined) {
         const insertedTeachersIds = await tsx('teachers').insert({
@@ -108,6 +105,14 @@ export default class ClassesController {
         error: "Unexpected error while creating new class."
       })
     }
+  }
+
+  async getClassSchedules(req: Request, res: Response) {
+    var { page = 1, limit = 10 } = req.query
+    page = Number(page) > 0 ? Number(page): 1
+    limit = Number(limit)
+    const schedules = await db('class_schedule').limit(limit).offset( (page-1)*limit )
+    res.json(schedules)
   }
 
   

@@ -25,5 +25,6 @@ routes.put('/update-user', verifyToken,usersController.update);
 routes.get('/all-teacher-info',verifyToken, teachersController.allTeacherInfo);
 routes.get('/teacher-info', verifyToken,teachersController.getTeacherInfo);
 routes.put('/update-teacher',verifyToken, teachersController.update);
+routes.get('/get-schedules', classesController.getClassSchedules);
 
 export default routes;

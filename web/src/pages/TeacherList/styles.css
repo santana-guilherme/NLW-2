@@ -37,6 +37,12 @@
     width: 90%;
 }
 
+#page-teacher-list main .finalMessage {
+  text-align: center;
+  font: 500 1.6rem Poppins;
+  margin-top: 4.1rem;
+}
+
 @media(min-width: 700px) {
     #page-teacher-list{
         max-width: 100%;

@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react'
+import React, { useState, FormEvent, useEffect } from 'react'
 import PageHeader from '../../components/PageHeader'
 import TeacherItem, { Teacher } from '../../components/TeacherItem'
 import Input from '../../components/Input'
@@ -8,15 +8,40 @@ import './styles.css'
 import api from '../../services/api'
 
 function TeacherList() {
-  const [teachers, setTeachers] = useState([])
-
+  const [teachers, setTeachers] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [page, setPage] = useState(1)
   const [subject, setSubject] = useState("")
   const [week_day, setWeekDay] = useState("")
   const [time, setTime] = useState("")
 
-  async function handleSearchTeachers(e: FormEvent) {
-    e.preventDefault()
-    const response = await api.get('classes', {
+  useEffect(
+    () => {
+      window.addEventListener('scroll', onScroll, false);
+      return () => {
+        window.removeEventListener('scroll', onScroll, false);
+      }
+    }
+  )
+
+  async function onScroll() {
+    if( ((window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 300))
+    && teachers.length > 0 && !isLoading) {
+      
+      setIsLoading(true)
+      const teachersResponse = await fetchClasses()
+      if(await teachersResponse.length > 0){
+        setTeachers([...teachers, ...teachersResponse])
+        setIsLoading(false)
+      } else {
+        setIsLoading(true)
+        setPage(-1) //use to display final message
+      }
+    }
+  }
+
+  async function fetchClasses() {
+    const response = await api.get(`classes?limit=5&page=${page}`, {
       params: {
         subject,
         week_day,
@@ -24,7 +49,19 @@ function TeacherList() {
       }
     })
 
-    setTeachers(response.data)
+    if(response.status !== 200){
+      alert(response.data.error)
+    }
+    setPage(page+1)
+    return await response.data
+  }
+
+
+  async function handleSearchTeachers(e: FormEvent) {
+    e.preventDefault()
+    const teachersResponse = await fetchClasses()
+    setTeachers(teachersResponse)
+    setIsLoading(false)
   }
 
   return (
@@ -86,6 +123,7 @@ function TeacherList() {
         {teachers.map((teacherItem: Teacher) => {
           return <TeacherItem key={teacherItem.id} teacher={teacherItem} />
         })}
+        {page === -1 && <p className='finalMessage'>Estes são todos os resultados</p>}
       </main>
     </div>
   );
