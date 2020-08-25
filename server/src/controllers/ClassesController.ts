@@ -11,7 +11,7 @@ interface ScheduleItem {
 
 export default class ClassesController {
 
-  async index(request: Request, response: Response) {
+  index = async (request: Request, response: Response) => {
     const filters = request.query;
 
     if (!filters.week_day || !filters.subject || !filters.time) {
@@ -42,6 +42,10 @@ export default class ClassesController {
       .join('teachers', 'classes.teacher_id', '=', 'teachers.id')
       .join('users', 'teachers.user_id', '=', 'users.id')
       .select(['classes.*', 'teachers.*', 'users.*'])
+
+      for(let cls of classes) {
+        cls.schedules = await this.getClassSchedules(cls.id)
+      }
 
     return response.json(classes)
   }
@@ -107,12 +111,9 @@ export default class ClassesController {
     }
   }
 
-  async getClassSchedules(req: Request, res: Response) {
-    var { page = 1, limit = 10 } = req.query
-    page = Number(page) > 0 ? Number(page): 1
-    limit = Number(limit)
-    const schedules = await db('class_schedule').limit(limit).offset( (page-1)*limit )
-    res.json(schedules)
+  async getClassSchedules(class_id: number) {
+    const schedules = await db('class_schedule').where({class_id})
+    return schedules
   }
 
   

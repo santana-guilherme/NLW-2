@@ -28,13 +28,12 @@ function Routes() {
         <Route path="/forgot-password-complete" component={CompleteForgotPassword}/>
         <Route path="/reset-password/:token" component={ResetPassword} />
         <Route path="/complete-reset-password" component={CompleteResetPassword} />
-        <Route path="/complete-teacher" component={CompleteTeacherRegistration} />
       </RestrictedRoute>
       <PrivateRoute exact path="/" component={Landing} />
       <PrivateRoute path="/study" component={TeacherList} />
       <PrivateRoute path="/give-classes" component={TeacherForm} />
       <PrivateRoute path='/profile' component={Profile}/>
-      {/* <PrivateRoute path="/complete-teacher" component={CompleteTeacherRegistration} /> */}
+      <PrivateRoute path="/complete-teacher" component={CompleteTeacherRegistration} />
     </BrowserRouter>
   );
 }

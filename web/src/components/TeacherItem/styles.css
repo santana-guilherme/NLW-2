@@ -40,6 +40,22 @@
   line-height: 2.8rem;
 }
 
+.teacher-item .schedule-board {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.teacher-item .schedule-board .scheduleItem .time-info p,
+.teacher-item .schedule-board .scheduleItem .day-info p {
+  display: none;
+}
+
+.teacher-item .schedule-board .scheduleItem:first-child .time-info p,
+.teacher-item .schedule-board .scheduleItem:first-child .day-info p {
+  display: block;
+}
+
 .teacher-item footer {
   padding: 3.2rem 2rem;
   background: var(--color-box-footer);
@@ -99,5 +115,14 @@
 
   .teacher-item footer a img {
     margin-right: 1.6rem;
+  }
+
+  .teacher-item .schedule-board {
+    flex-direction: row;
+  }
+
+  .teacher-item .schedule-board .scheduleItem .time-info p,
+  .teacher-item .schedule-board .scheduleItem .day-info p {
+    display: block;
   }
 }

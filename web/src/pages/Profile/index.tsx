@@ -56,7 +56,7 @@ function Profile() {
       return
     }
 
-    if (classes[0].cost) {
+    if (whatsapp) {
       const responseStatus = await updateTeacherInfo()
       if (responseStatus !== 204) {
         alert('Error while updating teacher information: ')
@@ -102,6 +102,7 @@ function Profile() {
       })
       return { ...cls, schedules: updatedSchedules }
     })
+    
     setClasses(updatedClasses)
   }
 
@@ -203,7 +204,7 @@ function Profile() {
                   readOnly
                 />
 
-                {classes[0].cost &&
+                {whatsapp &&
                   <Input
                     name="whatsapp"
                     id="whatsapp"
@@ -214,7 +215,7 @@ function Profile() {
                 }
               </div>
 
-              {classes[0].cost &&
+              {bio &&
                 <Textarea
                   name="bio"
                   id="bio"
@@ -226,7 +227,7 @@ function Profile() {
             </fieldset>
 
 
-            {classes[0].cost && classes?.map((cls, index) => {
+            {classes[0] && classes?.map((cls, index) => {
               return (
                 <React.Fragment key={index}>
                   <fieldset>
