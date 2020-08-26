@@ -25,6 +25,7 @@ function Profile() {
   const [name, setName] = useState('');
   const [last_name, setLastName] = useState('');
   const [avatar, setAvatar] = useState('');
+  const [editAvatar, setEditAvatar] = useState(false);
 
   const [whatsapp, setWhatsapp] = useState('');
   const [bio, setBio] = useState('');
@@ -84,7 +85,7 @@ function Profile() {
 
   async function getTeacher() {
     const response = await getAllTeacherInfo()
-    if(response){
+    if (response) {
       setTeacherInformation(response)
     }
   }
@@ -102,7 +103,7 @@ function Profile() {
       })
       return { ...cls, schedules: updatedSchedules }
     })
-    
+
     setClasses(updatedClasses)
   }
 
@@ -161,7 +162,8 @@ function Profile() {
               <img
                 src={cameraIcon}
                 alt='editar foto de perfil'
-                onClick={() => console.log('Click')}
+                style={{border: editAvatar? "2px solid white": ''}}
+                onClick={() => setEditAvatar(!editAvatar)}
               />
               <img
                 src={avatar ? avatar : defaultUserAvatar}
@@ -172,6 +174,13 @@ function Profile() {
             {classes?.map((cls, index) => {
               return <p key={index}>{cls.subject}</p>
             })}
+            <Input
+              label=''
+              name='avatar'
+              placeholder='Photo URL'
+              style={{display: editAvatar ? 'block': "none"}}
+              onChange={e => setAvatar(e.target.value)}
+            />
           </div>
         </PageHeader>
 

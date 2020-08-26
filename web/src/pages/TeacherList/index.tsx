@@ -35,7 +35,7 @@ function TeacherList() {
         setIsLoading(false)
       } else {
         setIsLoading(true)
-        setPage(-1) //use to display final message
+        setPage(1)
       }
     }
   }
@@ -123,7 +123,7 @@ function TeacherList() {
         {teachers.map((teacherItem: Teacher) => {
           return <TeacherItem key={teacherItem.id} teacher={teacherItem} />
         })}
-        {page === -1 && <p className='finalMessage'>Estes são todos os resultados</p>}
+        {page === 1 && <p className='finalMessage'>Estes são todos os resultados</p>}
       </main>
     </div>
   );

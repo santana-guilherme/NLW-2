@@ -41,7 +41,7 @@ export default class ClassesController {
       .where('classes.subject', '=', subject)
       .join('teachers', 'classes.teacher_id', '=', 'teachers.id')
       .join('users', 'teachers.user_id', '=', 'users.id')
-      .select(['classes.*', 'teachers.*', 'users.*'])
+      .select(['teachers.*', 'users.*','classes.*'])
 
       for(let cls of classes) {
         cls.schedules = await this.getClassSchedules(cls.id)
@@ -112,7 +112,7 @@ export default class ClassesController {
   }
 
   async getClassSchedules(class_id: number) {
-    const schedules = await db('class_schedule').where({class_id})
+    const schedules = await db('class_schedule').where({class_id: class_id})
     return schedules
   }
 
