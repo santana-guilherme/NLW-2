@@ -11,7 +11,7 @@ interface UserInterface {
 export interface AuthContextInterface {
   signed: boolean;
   user: UserInterface | null;
-  logIn(email: string, password: string): Promise<void>;
+  logIn(email: string, password: string, remember: boolean): Promise<void>;
   logOut(): void;
   updateUserInfo(name: string, last_name: string, avatar: string): Promise<boolean>;
 }
@@ -53,7 +53,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     return userString !== null ? JSON.parse(userString) : null
   }
 
-  async function logIn(email: string, password: string) {
+  async function logIn(email: string, password: string, remember: boolean) {
 
     try {
       const response = await api.post('/login', {
@@ -63,8 +63,13 @@ export const AuthProvider: React.FC = ({ children }) => {
 
       if (response.status === 200) {
         const { user, token } = response.data
-        localStorage.setItem('@Proffys:user', JSON.stringify(user))
-        localStorage.setItem('@Proffys:token', token)
+        if(remember){
+          localStorage.setItem('@Proffys:user', JSON.stringify(user))
+          localStorage.setItem('@Proffys:token', token)
+        } else {
+          sessionStorage.setItem('@Proffys:user', JSON.stringify(user))
+          sessionStorage.setItem('@Proffys:token', token)
+        }
         setUser(user);
         api.defaults.headers['Authorization'] = `Bearer ${token}`
 
@@ -81,6 +86,8 @@ export const AuthProvider: React.FC = ({ children }) => {
   function logOut() {
     localStorage.removeItem('@Proffys:user');
     localStorage.removeItem('@Proffys:token');
+    sessionStorage.removeItem('@Proffys:user');
+    sessionStorage.removeItem('@Proffys:token');
     setUser(null);
     delete api.defaults.headers['Authorization']
   }

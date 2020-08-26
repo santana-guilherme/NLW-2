@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Input from '../../components/Input';
 import LogoContainer from '../../components/LogoContainer';
 import { useAuth } from '../../contexts/auth';
+import PasswordInput from '../../components/PasswordInput'
 
 import './styles.css'
 
@@ -11,11 +12,12 @@ function Login() {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [remember, setRemember] = useState(false)
   const { logIn } = useAuth()
 
   function handleLogin(e: FormEvent) {
     e.preventDefault();
-    logIn(email, password);
+    logIn(email, password, remember);
   }
 
   return (
@@ -39,20 +41,25 @@ function Login() {
               placeholder='E-mail'
               onChange={(e) => { setEmail(e.target.value) }}
             />
-            <Input
+            <PasswordInput
               label=''
               name=''
-              type='password'
               value={password}
               placeholder='Senha'
               onChange={(e) => { setPassword(e.target.value) }}
             />
 
             <div id='form-options'>
-              <div id="remember-me">
-                <input type='checkbox' />
-                <label htmlFor="remember">Lembrar-me</label>
-              </div>
+
+              <label>
+                Lembrar-me
+                <input 
+                  type='checkbox'
+                  checked={remember}
+                  onChange={() => setRemember(!remember)}/>
+                <span></span>
+              </label>
+
               <Link to='/forgot-password'>Esqueci minha senha</Link>
             </div>
             <button

@@ -63,10 +63,8 @@ export default class ClassesController {
 
     try {
       const user_id = request.user?.id
-      console.log('userId', user_id)
       const teacher = await tsx('teachers').where({ user_id }).first();
       
-      console.log('Teacher: ', teacher)
       var teacher_id = 0
       if (teacher === undefined) {
         const insertedTeachersIds = await tsx('teachers').insert({

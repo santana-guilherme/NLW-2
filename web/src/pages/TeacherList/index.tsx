@@ -3,9 +3,12 @@ import PageHeader from '../../components/PageHeader'
 import TeacherItem, { Teacher } from '../../components/TeacherItem'
 import Input from '../../components/Input'
 import Select from '../../components/Select'
+import api from '../../services/api'
+
+import week_days from '../../resources/week_days.json'
+import classes from '../../resources/classes.json'
 
 import './styles.css'
-import api from '../../services/api'
 
 function TeacherList() {
   const [teachers, setTeachers] = useState<any[]>([])
@@ -14,6 +17,7 @@ function TeacherList() {
   const [subject, setSubject] = useState("")
   const [week_day, setWeekDay] = useState("")
   const [time, setTime] = useState("")
+  const [noMoreResults, setNoMoreResults] = useState(false)
 
   useEffect(
     () => {
@@ -25,17 +29,18 @@ function TeacherList() {
   )
 
   async function onScroll() {
-    if( ((window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 300))
-    && teachers.length > 0 && !isLoading) {
-      
+    if (((window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 300))
+      && teachers.length > 0 && !isLoading) {
+
       setIsLoading(true)
       const teachersResponse = await fetchClasses()
-      if(await teachersResponse.length > 0){
+      if (await teachersResponse.length > 0) {
         setTeachers([...teachers, ...teachersResponse])
         setIsLoading(false)
       } else {
         setIsLoading(true)
         setPage(1)
+        setNoMoreResults(true)
       }
     }
   }
@@ -49,10 +54,10 @@ function TeacherList() {
       }
     })
 
-    if(response.status !== 200){
+    if (response.status !== 200) {
       alert(response.data.error)
     }
-    setPage(page+1)
+    setPage(page + 1)
     return await response.data
   }
 
@@ -60,8 +65,15 @@ function TeacherList() {
   async function handleSearchTeachers(e: FormEvent) {
     e.preventDefault()
     const teachersResponse = await fetchClasses()
-    setTeachers(teachersResponse)
-    setIsLoading(false)
+    if (teachersResponse.length === 0) {
+      setNoMoreResults(true)
+      setPage(1)
+      /* setIsLoading(true) */
+    } else {
+      setTeachers(teachersResponse)
+      setIsLoading(false)
+      setNoMoreResults(false)
+    }
   }
 
   return (
@@ -76,33 +88,14 @@ function TeacherList() {
             label="Matéria"
             value={subject}
             onChange={e => setSubject(e.target.value)}
-            options={[
-              { value: "Artes", label: "Artes" },
-              { value: "Química", label: "Química" },
-              { value: "Biologia", label: "Biologia" },
-              { value: "Ciências", label: "Ciências" },
-              { value: "Educação física", label: "Educação física" },
-              { value: "Física", label: "Física" },
-              { value: "Geografia", label: "Geografia" },
-              { value: "Históra", label: "Históra" },
-              { value: "Matemática", label: "Matemática" },
-              { value: "Português", label: "Português" }
-            ]}
+            options={classes}
           />
           <Select
             name="week_day"
             label="Dia da semana"
             value={week_day}
             onChange={e => setWeekDay(e.target.value)}
-            options={[
-              { value: "0", label: "Domingo" },
-              { value: "1", label: "Segunda-feira" },
-              { value: "2", label: "Terça-feira" },
-              { value: "3", label: "Quarta-feira" },
-              { value: "4", label: "Quinta-feira" },
-              { value: "5", label: "Sexta-feira" },
-              { value: "6", label: "Sábado" },
-            ]}
+            options={week_days}
           />
           <Input
             name='time'
@@ -123,7 +116,8 @@ function TeacherList() {
         {teachers.map((teacherItem: Teacher) => {
           return <TeacherItem key={teacherItem.id} teacher={teacherItem} />
         })}
-        {page === 1 && <p className='finalMessage'>Estes são todos os resultados</p>}
+        {(noMoreResults && teachers.length > 0) && <p className='finalMessage'>Estes são todos os resultados</p>}
+        {(noMoreResults && teachers.length === 0) && <p className='finalMessage'>Nenhum professor encontrado<br /> com sua pesquisa.</p>}
       </main>
     </div>
   );
