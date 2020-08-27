@@ -29,6 +29,12 @@ Esse projeto permite o cadastro de professores e alunos. Os professores  informa
   />
 </div>
 
+## Live
+https://admiring-brattain-93e78f.netlify.app/
+
+email: teste@email.com
+senha: proffy
+
 ## Layouts
 <div style="display: flex; justify-content: space-around">
   <img 

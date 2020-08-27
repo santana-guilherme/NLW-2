@@ -255,7 +255,6 @@ function Profile() {
                       <Input
                         name="cost"
                         value={cls.cost || ''}
-                        prefix="çalskdfjçalskdj"
                         label="Custo da sua hora por aula"
                         onChange={(e) => { updateClassField(index, e.target.value, 'cost') }}
                       />
