@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node dist/src/server.js" ,
     "dev":"tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts",
-    "knex:migrate": "knex --knexfile dist/knexfile.ts migrate:latest",
-    "knex:migrate:rollback": "knex --knexfile dist/knexfile.ts migrate:rollback",
+    "knex:migrate": "knex --knexfile dist/knexfile.js migrate:latest",
+    "knex:migrate:rollback": "knex --knexfile dist/knexfile.js migrate:rollback",
     "build": "tsc"
   },
   "devDependencies": {
@@ -31,5 +31,8 @@
     "nodemailer-express-handlebars": "^4.0.0",
     "pg": "^8.3.3",
     "sqlite3": "^5.0.0"
+  },
+  "engines": {
+    "node": "12.18.3"
   }
 }

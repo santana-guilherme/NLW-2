@@ -22,9 +22,13 @@ export interface TeacherInfoInterface {
 }
 
 export async function getAllTeacherInfo(): Promise<TeacherInfoInterface | false> {
-  const response = await api.get('/all-teacher-info')
-  if(response.status === 200)
-    return response.data
-  else
+  try {
+    const response = await api.get('/all-teacher-info')
+    if(response.status === 200)
+      return response.data
     return false
+  } catch(err) {
+    console.log('err', JSON.stringify(err))
+    return false
+  }
 }

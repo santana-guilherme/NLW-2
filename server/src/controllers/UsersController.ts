@@ -3,9 +3,7 @@ import db from '../database/connection';
 import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import crypto from 'crypto';
-import * as dotenv from 'dotenv';
-
-dotenv.config()
+import 'dotenv/config';
 
 import { hashPassword, getUserIdFromToken } from '../utils/auth';
 import mailer from '../modules/mail';
@@ -96,7 +94,7 @@ export default class UsersController {
         template: 'auth/forgot_password',
         context: {
           username: user.name,
-          link: `http://localhost:3000/reset-password/${resetPasswordToken}`
+          link: `${process.env.FRONT_BASE_URL}/reset-password/${resetPasswordToken}`
         }
       }
 

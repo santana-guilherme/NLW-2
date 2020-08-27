@@ -87,6 +87,9 @@ function Profile() {
     const response = await getAllTeacherInfo()
     if (response) {
       setTeacherInformation(response)
+    } else {
+      console.log(classes[0].cost === undefined)
+      console.log('not a teacher')
     }
   }
 
@@ -236,7 +239,7 @@ function Profile() {
             </fieldset>
 
 
-            {classes[0] && classes?.map((cls, index) => {
+            {(classes[0] && classes[0].cost) && classes?.map((cls, index) => {
               return (
                 <React.Fragment key={index}>
                   <fieldset>
