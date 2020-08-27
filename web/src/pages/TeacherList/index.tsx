@@ -70,10 +70,10 @@ function TeacherList() {
       setPage(1)
       /* setIsLoading(true) */
     } else {
-      setTeachers(teachersResponse)
       setIsLoading(false)
       setNoMoreResults(false)
     }
+    setTeachers(teachersResponse)
   }
 
   return (

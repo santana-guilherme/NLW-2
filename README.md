@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="NextLevelWeek#2" src="./layouts/app-logo.png">
+  <img alt="NextLevelWeek#2" src="./assets/app-logo.png">
 </h1>
 
 <h3 align="center">Proffy - A plataforma que conecta estudantes e professores</h3>
@@ -21,6 +21,29 @@
 
 ## Sobre
 Esse projeto permite o cadastro de professores e alunos. Os professores  informam os horários e as matérias que gostariam de lecionar e os alunos podem buscar e entrar em contato com os professores casdastrados para marcarem aulas particulares.
+
+## Demo
+<div align='center'>
+  <img
+    src='./assets/proffy01.gif' alt='demostração do projeto'
+  />
+</div>
+
+## Layouts
+<div style="display: flex; justify-content: space-around">
+  <img 
+    src='./assets/Home.png'
+    alt='home page'
+    style='width: auto; height: 15rem;'
+  />
+
+  <img 
+    src='./assets/Listagem.png'
+    alt='home page'
+    style='width: auto; height: 15rem;'
+  />
+
+</div>
 
 ## Tecnologias
 <ul>
