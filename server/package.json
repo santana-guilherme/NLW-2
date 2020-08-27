@@ -4,9 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts",
-    "knex:migrate": "knex --knexfile knexfile.ts migrate:latest",
-    "knex:migrate:rollback": "knex --knexfile knexfile.ts migrate:rollback"
+    "start": "node dist/src/server.js" ,
+    "dev":"tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts",
+    "knex:migrate": "knex --knexfile dist/knexfile.ts migrate:latest",
+    "knex:migrate:rollback": "knex --knexfile dist/knexfile.ts migrate:rollback",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/cors": "^2.8.7",
@@ -27,6 +29,7 @@
     "knex": "^0.21.2",
     "nodemailer": "^6.4.11",
     "nodemailer-express-handlebars": "^4.0.0",
+    "pg": "^8.3.3",
     "sqlite3": "^5.0.0"
   }
 }

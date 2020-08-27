@@ -1,0 +1,1 @@
+nlw2-proffy-server: node server/dist/src/server.js

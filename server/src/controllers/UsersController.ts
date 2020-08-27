@@ -170,12 +170,14 @@ export default class UsersController {
         name,
         last_name,
         avatar
-      })
+      },['id'])
 
-      if (response > 0) {
+      if (response.length > 0) {
         res.status(204).send()
+      } else {
+        console.log('User Not updated', response);
+        return res.status(400).json({error: 'User not updated'})
       }
-
 
     } catch (err) {
       console.log('ERROR: ', err)

@@ -33,10 +33,10 @@ export default class ClassesController {
       .whereExists(function () {
         this.select('class_schedule.*')
           .from('class_schedule')
-          .whereRaw('`class_schedule`.`class_id` = `classes`.`id`')
-          .whereRaw('`class_schedule`.`week_day` = ??', [week_day])
-          .whereRaw('`class_schedule`.`from` <= ??', [timeInMinutes])
-          .whereRaw('`class_schedule`.`to` > ??', [timeInMinutes])
+          .whereRaw('class_schedule.class_id = classes.id')
+          .whereRaw('class_schedule.week_day = ??', [week_day])
+          .whereRaw('class_schedule.from <= ??', [timeInMinutes])
+          .whereRaw('class_schedule.to > ??', [timeInMinutes])
       }).limit(limit).offset( (page-1)*limit )
       .where('classes.subject', '=', subject)
       .join('teachers', 'classes.teacher_id', '=', 'teachers.id')
@@ -71,7 +71,7 @@ export default class ClassesController {
           user_id,
           whatsapp,
           bio
-        });
+        }).returning('id');
         teacher_id = insertedTeachersIds[0]
       } else {
         teacher_id = teacher.id
@@ -81,7 +81,7 @@ export default class ClassesController {
         subject,
         cost,
         teacher_id
-      });
+      }).returning('id');
 
       const class_id = insertedClassesIds[0];
 

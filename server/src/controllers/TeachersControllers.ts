@@ -78,9 +78,9 @@ export default class TeachersController {
       var response = await db('teachers').where({ id: teacher.id }).update({
         whatsapp,
         bio
-      });
+      },['id']);
 
-      if (response === 0) {
+      if (response.length === 0) {
         return res.status(400).json({
           error: 'Error while trying to update teacher'
         })
@@ -108,7 +108,7 @@ export default class TeachersController {
               from: convertHourToMinutes(schedule.from),
               to: convertHourToMinutes(schedule.to),
               class_id: cls.id
-            })
+            }).returning('id');
             schedule.id = res[0]
           }
         })

@@ -2,3 +2,4 @@ node_modules/*
 *.sqlite
 .directory
 config/
+.env
