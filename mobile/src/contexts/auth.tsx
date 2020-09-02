@@ -15,6 +15,7 @@ export interface AuthContextInterface {
   logIn(email: string, password: string, remember: boolean): Promise<void>;
   logOut(): void;
   updateUserInfo(name: string, last_name: string, avatar: string): Promise<boolean>;
+  createNewUser(name: string, last_name: string, email: string, password: string): Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextInterface>({} as AuthContextInterface);
@@ -41,7 +42,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   function isTokenOutdated(token: string) {
     const tokenExpireDate = new Date(JSON.parse(atob(token.split('.')[1])).exp)
-    if(tokenExpireDate > new Date()) {
+    if (tokenExpireDate > new Date()) {
       console.log('Token expirado')
       return true
     }
@@ -64,7 +65,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
       if (response.status === 200) {
         const { user, token } = response.data
-        if(remember){
+        if (remember) {
           await AsyncStorage.setItem('@Proffys:user', JSON.stringify(user))
           await AsyncStorage.setItem('@Proffys:token', token)
         } else {
@@ -96,16 +97,37 @@ export const AuthProvider: React.FC = ({ children }) => {
       avatar
     })
 
-    if(response.status === 204 && user) {
-      setUser({...user, name, last_name, avatar})
+    if (response.status === 204 && user) {
+      setUser({ ...user, name, last_name, avatar })
       return true
     }
     return false
   }
 
+  async function createNewUser(name: string, last_name: string, email: string, password: string) {
+    try {
+      const response = await api.post('register', {
+        name,
+        last_name,
+        email,
+        password
+      })
+
+      if (response.status === 201) {
+        return true
+      }
+      console.log("RESPONSE ERROR:", JSON.stringify(response))
+      return false
+    } catch(err) {
+      console.log('error', JSON.stringify(err))
+      return false
+    }
+    
+  }
+
 
   return (
-    <AuthContext.Provider value={{ signed: !!user, user, logIn, logOut,  updateUserInfo }}>
+    <AuthContext.Provider value={{ signed: !!user, user, logIn, logOut, updateUserInfo, createNewUser }}>
       {children}
     </AuthContext.Provider>
   );

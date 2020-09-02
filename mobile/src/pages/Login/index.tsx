@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, KeyboardAvoidingView } from 'react-native';
-import LogoContainer from '../../components/LogoContainer';
-import styles from './styles';
 import { TextInput, RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../contexts/auth'
+import { valuesAreNotEmpty } from '../../utils/valuesAreNotEmpty';
+
+import LogoContainer from '../../components/LogoContainer';
+
+import styles from './styles';
 
 function Login() {
   const { logIn } = useAuth();
@@ -60,10 +63,14 @@ function Login() {
             <Text style={styles.optionsText}>Esqueci minha senha</Text>
           </View>
           <RectButton
-            style={password.trim() === '' || email.trim() === ''
-              ? styles.button
-              : styles.buttonEnabled}
-            onPress={handleLogin}
+            style={valuesAreNotEmpty(email, password)
+              ? styles.buttonEnabled
+              : styles.button}
+            onPress={() => {
+              if(valuesAreNotEmpty(email, password)){
+                handleLogin()
+              }
+            }}
           >
             <Text style={email.trim() === '' || password.trim() === ''
               ? styles.buttonText

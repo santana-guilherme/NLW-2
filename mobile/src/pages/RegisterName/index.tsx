@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { View, Text, KeyboardAvoidingView } from 'react-native';
 import styles from './styles';
 import { TextInput, RectButton } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
+import { valuesAreNotEmpty } from '../../utils/valuesAreNotEmpty';
 
 function RegisterName() {
+  const { navigate } = useNavigation()
   const [name, setName] = useState('')
   const [lastName, setLastName] = useState('')
+
   return (
     <KeyboardAvoidingView behavior='padding' style={styles.container}>
       <View style={styles.textInformation}>
-        <Text style={styles.title}>Crie sua conta gratuita</Text>
+        <Text style={styles.title}>Crie sua{'\n'}conta gratuita</Text>
         <Text style={styles.subtitle}>Basta você preencher os dados {'\n'} e você estará conosco.</Text>
       </View>
 
@@ -28,13 +32,19 @@ function RegisterName() {
       />
 
       <RectButton
-        style={name.trim() === '' || lastName.trim() === ''
-          ? styles.button
-          : styles.buttonEnabled}
+        onPress={() => {
+          if(valuesAreNotEmpty(name, lastName)){
+            navigate('RegisterEmail', {name, lastName})
+          }
+          
+        }}
+        style={valuesAreNotEmpty(name, lastName)
+          ? styles.buttonEnabled
+          : styles.button}
       >
-        <Text style={name.trim() === '' || lastName.trim() === ''
-          ? styles.buttonText
-          : styles.buttonTextEnabled}>Próximo</Text>
+        <Text style={valuesAreNotEmpty(name, lastName)
+          ? styles.buttonTextEnabled
+          : styles.buttonText}>Próximo</Text>
       </RectButton>
 
     </KeyboardAvoidingView>

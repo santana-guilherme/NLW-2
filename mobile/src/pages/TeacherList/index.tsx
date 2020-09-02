@@ -25,7 +25,6 @@ function TeacherList() {
     AsyncStorage.getItem('favorites').then((response) => {
       if (response) {
         const teachers = JSON.parse(response);
-        console.log('Favorits teachers', teachers)
         const favoritedTeachersIds = teachers.map((teacher: Teacher) => {
           return teacher.id
         })

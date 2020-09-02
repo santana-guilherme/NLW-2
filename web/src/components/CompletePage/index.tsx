@@ -4,19 +4,19 @@ import successIcon from '../../assets/images/icons/success-check-icon.svg';
 
 import './styles.css'
 
-interface CompleteForgotPasswordPropsInterface {
+interface CompletePageProps {
   title: string,
   buttonLabel: string,
   link: string
 }
 
-const CompleteForgotPassword: React.FC<CompleteForgotPasswordPropsInterface> = ({ children, title, buttonLabel, link }) => {
+const CompletePage: React.FC<CompletePageProps> = ({ children, title, buttonLabel, link }) => {
   return (
     <div id="complete-page" className='container'>
       <main>
         <div id="complete-page-content">
           <div id="complete-page-information">
-            <img src={successIcon} alt="cadastro realizado com sucesso" />
+            <img src={successIcon} alt="tarefa realizado com sucesso" />
             <h2>{title}</h2>
             {children}
           </div>
@@ -30,4 +30,4 @@ const CompleteForgotPassword: React.FC<CompleteForgotPasswordPropsInterface> = (
   );
 }
 
-export default CompleteForgotPassword;
+export default CompletePage;
