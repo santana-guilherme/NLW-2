@@ -8,6 +8,7 @@ import { valuesAreNotEmpty } from '../../utils/valuesAreNotEmpty';
 import LogoContainer from '../../components/LogoContainer';
 
 import styles from './styles';
+import PasswordInput from '../../components/PasswordInput';
 
 function Login() {
   const { logIn } = useAuth();
@@ -49,11 +50,8 @@ function Login() {
             placeholderTextColor='#9C98A6'
             onChangeText={text => setEmail(text)}
           />
-          <TextInput
-            style={[styles.input, styles.inputBottom]}
+          <PasswordInput
             placeholder='Senha'
-            secureTextEntry={true}
-            placeholderTextColor='#9C98A6'
             onChangeText={text => setPassword(text)}
           />
         </View>
@@ -67,7 +65,7 @@ function Login() {
               ? styles.buttonEnabled
               : styles.button}
             onPress={() => {
-              if(valuesAreNotEmpty(email, password)){
+              if (valuesAreNotEmpty(email, password)) {
                 handleLogin()
               }
             }}
