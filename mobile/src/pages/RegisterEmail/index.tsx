@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Text } from 'react-native';
-import { TextInput, RectButton } from 'react-native-gesture-handler';
+import { KeyboardAvoidingView, Text, TextInput } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 import styles from './styles'
 import { useAuth } from '../../contexts/auth';
 import { valuesAreNotEmpty } from '../../utils/valuesAreNotEmpty';

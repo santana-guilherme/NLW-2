@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     lineHeight: 37,
     color: 'white',
-    maxWidth: 162,
+    maxWidth: 200,
     textAlign: "center",
     marginBottom: 16
   },

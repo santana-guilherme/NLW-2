@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, KeyboardAvoidingView } from 'react-native';
+import { View, Text, KeyboardAvoidingView, TextInput } from 'react-native';
 import styles from './styles';
-import { TextInput, RectButton } from 'react-native-gesture-handler';
+import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { valuesAreNotEmpty } from '../../utils/valuesAreNotEmpty';
 

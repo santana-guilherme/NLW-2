@@ -63,15 +63,19 @@ export default class UsersController {
   async forgotPassword(req: Request, res: Response) {
     //verificar se o email existe em algum usuário
     const { email } = req.body;
+    
+    if(!email.contains('@'))
+      return res.status(400).json({message: "Invalid email"})
+
     try {
       const user = await db('users').where('users.email', '=', email).first()
       if (!user)
-        return res.status(500).json({
+        return res.status(400).json({
           error: "No user found with that email :-("
         });
 
       if (user.resetPasswordToken && new Date(user.tokenExpirationTime) > new Date()) {
-        return res.status(500).json({
+        return res.status(400).json({
           error: "This user already requested a password reset"
         });
       } //else: token is already expired, let user create another
@@ -100,7 +104,7 @@ export default class UsersController {
 
       mailer.sendMail(mailOptions, (err) => {
         if (err) {
-          console.log(err)
+          console.log('Error while sending e-mail\n',err)
           return res.status(500).json({
             error: 'Could not send forgot password email :-('
           })

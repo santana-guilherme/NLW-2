@@ -16,7 +16,11 @@ function LogoContainer() {
         style={styles.content}
       >
         <View style={styles.logoContent}>
-          <Image style={styles.logo} source={logoImg}></Image>
+          <Image
+            style={styles.logo}
+            source={logoImg}
+            resizeMode='contain'
+          />
           <Text style={styles.text}>Sua plataforma de{'\n'}estudos online.</Text>
         </View>
       </ImageBackground>

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, KeyboardAvoidingView } from 'react-native';
-import { TextInput, RectButton } from 'react-native-gesture-handler';
+import { View, Text, KeyboardAvoidingView, TextInput } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../contexts/auth'
 import { valuesAreNotEmpty } from '../../utils/valuesAreNotEmpty';
 
 import LogoContainer from '../../components/LogoContainer';
+import PasswordInput from '../../components/PasswordInput';
 
 import styles from './styles';
-import PasswordInput from '../../components/PasswordInput';
 
 function Login() {
   const { logIn } = useAuth();
@@ -20,6 +20,10 @@ function Login() {
 
   function handleNavigateToRegister() {
     navigate('Register')
+  }
+
+  function handleNavigateToForgotPassword() {
+    navigate('ForgotPassword')
   }
 
   function handleLogin() {
@@ -56,10 +60,17 @@ function Login() {
           />
         </View>
         <View style={styles.formFooter}>
+
           <View style={styles.formOptions}>
             <Text style={styles.optionsText}>Lembrar-me</Text>
-            <Text style={styles.optionsText}>Esqueci minha senha</Text>
+            <Text
+              onPress={() => handleNavigateToForgotPassword()}
+              style={styles.optionsText}
+            >
+              Esqueci minha senha
+            </Text>
           </View>
+
           <RectButton
             style={valuesAreNotEmpty(email, password)
               ? styles.buttonEnabled

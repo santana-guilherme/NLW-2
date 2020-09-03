@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
 
   logoContent: {
     justifyContent: "center",
+    marginTop: '10%'
   },
 
   content: {
@@ -23,7 +24,9 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    resizeMode: 'contain'
+    flex: 1,
+    maxHeight: 60,
+    width: 200,
   },
 
   text: {

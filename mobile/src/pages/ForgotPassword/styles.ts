@@ -1,67 +1,48 @@
 import { StyleSheet } from "react-native";
+import { ceil } from "react-native-reanimated";
 
-const styles = StyleSheet.create({
+const styles  = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignContent: "center",
+    justifyContent: "center"
   },
-
   bottom: {
     flex: 1,
-    maxHeight: "50%",
-    minHeight: "50%",
-    paddingHorizontal: 32,
+    width: "100%",
+    paddingHorizontal: 32
   },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 46,
+  backIcon:{
+    marginTop: 21,
+    marginBottom: 21,
+    width: 60,
+    height: 30,
+    justifyContent: "center"
   },
   title: {
-    fontFamily: 'Archivo_700Bold',
-    color:'#32264D',
+    fontFamily: 'Poppins_600SemiBold',
     fontSize: 24,
-    lineHeight: 34
+    lineHeight: 34,
+    color: '#32264D',
+    marginBottom: 16
   },
-  createAccount: {
+  subTitle:{
     fontFamily: 'Poppins_400Regular',
-    fontSize: 12,
-    color: '#8257E5',
-    lineHeight: 24
+    fontSize: 14,
+    lineHeight: 24,
+    color: '#6A6180',
+    marginBottom: 30
   },
   input: {
-    height: 54,
+    height: 64,
     backgroundColor: '#FFF',
     justifyContent: "center",
     paddingHorizontal: 8,
     borderWidth: 1,
     borderColor: '#E6E6F0',
-    paddingLeft: 24
-  },
-  form: {
-    marginTop: 24
-  },
-  inputTop: {
-    borderTopRightRadius: 8,
-    borderTopLeftRadius: 8,
-  },
-  inputBottom: {
-    borderBottomRightRadius: 8,
-    borderBottomLeftRadius: 8,
-  },
-  formFooter:{
-    marginTop: 24
-  },
-  formOptions:{
-    flexDirection: "row",
-    justifyContent: "space-between"
-  },
-  optionsText: {
-    color: '#9C98A6',
+    paddingLeft: 24,
+    borderRadius: 8,
     fontFamily: 'Poppins_400Regular',
-    fontSize: 12
+    marginBottom: 24
   },
   button:{
     backgroundColor: '#DCDCE5',
@@ -92,7 +73,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Archivo_700Bold',
     fontSize: 16,
     lineHeight: 26,
-  }
+  },
 })
 
 export default styles;
