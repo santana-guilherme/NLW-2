@@ -1,26 +1,80 @@
 import { StyleSheet } from "react-native";
+import { Poppins_400Regular } from "@expo-google-fonts/poppins";
 
 //Styled components
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#8257E5',
     flex: 1, /*Make element fill all screen */
     justifyContent: 'center',
-    padding: 40
+  },
+
+  top: {
+    flex: 1,
+    paddingHorizontal: 32,
+    height: "50%",
+    width: "100%",
+    backgroundColor: '#8257E5',
+    justifyContent: "center"
+  },
+
+  userHeader: {
+    flexDirection: "row",
+    justifyContent: 'space-between',
+    width:"100%",
+    alignItems: "center",
+    marginBottom: 40
+  },
+
+  userInfo: {
+    flexDirection: 'row',
+    alignItems: "center"
+  },
+
+  userAvatar: {
+    width: 45,
+    height: 45,
+    borderRadius: 100,
+    marginRight: 16
+  },
+
+  userName: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 15,
+    lineHeight: 22,
+    color: '#D4C2FF',
+    fontWeight: '600'
+  },
+
+  logoutButton:{
+    width: 40,
+    height:40,
+    backgroundColor: '#774DD6',
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 8
+  },
+  
+  logOutIcon:{
+    width: 20,
+    height: 20,
   },
 
   banner: {
     width: '100%',
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
 
+  bottom: {
+    height: "50%",
+    paddingHorizontal: 40,
+  },
   title: {
     fontFamily: 'Poppins_400Regular',
-    color: '#FFF',
+    color: '#6A6180',
     fontSize: 20,
     lineHeight: 30,
-    marginTop: 80
+    marginTop: 42
   },
 
   titleBold: {
@@ -58,7 +112,7 @@ const styles = StyleSheet.create({
 
   totalConnections: {
     fontFamily: 'Poppins_400Regular',
-    color: '#D4C2FF',
+    color: '#9C98A6',
     fontSize: 12,
     lineHeight: 20,
     maxWidth: 140,
