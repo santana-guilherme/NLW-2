@@ -133,8 +133,8 @@ function Profile() {
   }
 
   function dataFromString(date: string) {
-    const [ hour, minute ] = date.split(':')
-    return new Date(0,0,0, parseInt(hour), parseInt(minute))
+    const [hour, minute] = date.split(':')
+    return new Date(0, 0, 0, parseInt(hour), parseInt(minute))
   }
 
   function addEmptySchedule(classIndex: number) {
@@ -198,11 +198,11 @@ function Profile() {
             <View>
               <Image
                 style={styles.userAvatar}
-                source={user?.avatar ? user?.avatar : defaultAvatar}
+                source={avatar !== '' ? {uri: avatar} : defaultAvatar}
               />
               <RectButton
                 style={styles.cameraIcon}
-                onPress={() => alert('Olá')}
+                onPress={() => setEditAvatar(!editAvatar)}
               >
                 <Image
                   resizeMode='contain'
@@ -210,12 +210,19 @@ function Profile() {
                 />
               </RectButton>
             </View>
+            {editAvatar &&
+              <TextInput
+                style={[styles.textInput, { width: 300 }]}
+                onChangeText={text => setAvatar(text)}
+                value={avatar}
+              />
+            }
             <Text style={styles.userName}>{user?.name} {user?.last_name}</Text>
-            { classes.length > 0 
-            ? <Text style={styles.teacherClasses}>
-              {classes.map(cls => `${cls.subject}\n`)}
-            </Text>
-            : null}
+            {classes.length > 0
+              ? <Text style={styles.teacherClasses}>
+                {classes.map(cls => `${cls.subject}\n`)}
+              </Text>
+              : null}
 
           </ImageBackground>
         </View>
@@ -266,7 +273,7 @@ function Profile() {
                   value={bio}
                   onChangeText={text => setBio(text)}
                 />
-                
+
               </>
               : null}
           </Fieldset>

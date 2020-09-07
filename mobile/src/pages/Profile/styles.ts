@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   userAvatar: {
     width:140,
     height:140,
-    borderRadius: 50,
+    borderRadius: 100,
     marginBottom: 24
   },
   cameraIcon: {
