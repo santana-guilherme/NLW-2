@@ -60,6 +60,7 @@ function TeacherList() {
   return (
     <View style={styles.container}>
       <PageHeader
+        topTitle='Estudar'
         title="Proffys disponíveis"
         headerRight={(
           <BorderlessButton onPress={handleToggleFiltersVisible}>

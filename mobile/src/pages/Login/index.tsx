@@ -52,6 +52,7 @@ function Login() {
             placeholder='E-mail'
             textContentType='emailAddress'
             placeholderTextColor='#9C98A6'
+            autoCapitalize='none'
             onChangeText={text => setEmail(text)}
           />
           <PasswordInput

@@ -9,11 +9,12 @@ import styles from './styles';
 import { useNavigation, useLinkProps } from '@react-navigation/native';
 
 interface PageHeaderProps {
-  title: string;
-  headerRight?: ReactNode
+  title?: string;
+  headerRight?: ReactNode,
+  topTitle: string,
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ title, headerRight, children }) => {
+const PageHeader: React.FC<PageHeaderProps> = ({ title, headerRight, topTitle, children }) => {
   const { navigate } = useNavigation();
 
   function handleGoBack() {
@@ -26,17 +27,18 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, headerRight, children })
         <BorderlessButton onPress={handleGoBack}>
           <Image source={backIcon} resizeMode="contain" />
         </BorderlessButton>
-
+        <Text style={styles.topTitle}>{topTitle}</Text>
         <Image source={logoImg} resizeMode="contain" />
       </View>
 
+
       <View style={styles.header}>
-        <Text style={styles.title}>{title}</Text>
+        {title && <Text style={styles.title}>{title}</Text>}
         {headerRight}
       </View>
-
-
-      {children}
+      <View style={styles.children}>
+        {children}
+      </View>
     </View>
   );
 }

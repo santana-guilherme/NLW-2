@@ -2,14 +2,25 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container:{
-    padding: 40,
     backgroundColor: "#8257e5",
   },
 
   topBar: {
+    marginTop: 5,
+    padding: 40,
+    paddingBottom: 15,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: '#6842C2',
+    backgroundColor: '#774DD6'
+  },
+
+  topTitle: {
+    fontFamily: 'Archivo_400Regular',
+    fontSize: 15,
+    color: '#D4C2FF'
   },
 
   title:{
@@ -22,9 +33,14 @@ const styles = StyleSheet.create({
   },
 
   header: {
+    paddingHorizontal: 40,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between"
+  },
+
+  children: {
+    paddingHorizontal: 40
   }
 })
 

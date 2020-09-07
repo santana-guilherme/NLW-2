@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Image, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { RectButton } from 'react-native-gesture-handler';
 
 import landingImg from '../../assets/images/landing.png';
 import studyIcon from '../../assets/images/icons/study.png';
@@ -15,6 +14,7 @@ import api from '../../services/api';
 
 import styles from './styles';
 import { useAuth } from '../../contexts/auth';
+import { RectButton } from 'react-native-gesture-handler';
 
 function Landing() {
   const { navigate } = useNavigation();
@@ -42,13 +42,16 @@ function Landing() {
 
       <View style={styles.top}>
         <View style={styles.userHeader}>
-          <View style={styles.userInfo}>
+          <RectButton 
+            style={styles.userInfo}
+            onPress={() => navigate('Profile')}
+          >
             <Image 
             source={user?.avatar ? {uri: user.avatar} :tempUserAvatar}
             style={styles.userAvatar}
             />
             <Text style={styles.userName}>{user?.name} {user?.last_name}</Text>
-          </View>
+          </RectButton>
           <RectButton style={styles.logoutButton} onPress={logOut}>
             <Image
               style={logOutIcon}
