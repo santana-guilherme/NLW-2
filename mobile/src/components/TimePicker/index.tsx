@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { RectButton, RectButtonProperties } from 'react-native-gesture-handler';
 import styles from './styles'

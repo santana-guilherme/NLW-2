@@ -17,8 +17,7 @@ import api from '../../services/api';
 import { useNavigation } from '@react-navigation/native';
 import classesJson from '../../resources/classes.json'
 import week_days from '../../resources/week_days.json'
-import convertMinutesToHours from '../../utils/convertMinutesToHour'
-import { min } from 'react-native-reanimated';
+import convertTimeToString from '../../utils/convertMinutesToHour'
 
 function Profile() {
   const { goBack } = useNavigation()
@@ -58,7 +57,6 @@ function Profile() {
   }
 
   async function updateTeacherInfo() {
-    console.log('CLASSES', classes)
     const response = await api.put('/update-teacher', {
       whatsapp,
       bio,
@@ -99,8 +97,8 @@ function Profile() {
         return {
           id: schedule.id,
           week_day: schedule.week_day,
-          from: convertMinutesToHours(schedule.from),
-          to: convertMinutesToHours(schedule.to),
+          from: convertTimeToString(schedule.from),
+          to: convertTimeToString(schedule.to),
           class_id: schedule.class_id
         }
       })
@@ -132,14 +130,18 @@ function Profile() {
     updateClassField(classIndex, newSchedules, 'schedules')
   }
 
-  function dataFromString(date: string) {
+  function dateFromString(date: string) {
     const [hour, minute] = date.split(':')
     return new Date(0, 0, 0, parseInt(hour), parseInt(minute))
   }
 
   function addEmptySchedule(classIndex: number) {
+    const minutes = 480
     classes[classIndex].schedules.push({
-      week_day: "", to: 0, from: 0, class_id: classes[classIndex].id
+      week_day: "",
+      from: convertTimeToString(minutes),
+      to: convertTimeToString(minutes + 120),
+      class_id: classes[classIndex].id
     })
 
     const newEmptySchedule = classes[classIndex].schedules
@@ -162,25 +164,34 @@ function Profile() {
 
   function displaySchedule(schedule: any, index: number, scheduleIndex: number) {
     return (
-      <Fieldset
-        style={styles.fieldset}
-        title='Horários disponíveis'
-      >
+      <>
         <Select
           options={week_days}
           defaultValue={schedule.week_day}
           onChange={value => updateClassSchedule(index, scheduleIndex, "week_day", value)}
         />
-        <TimePicker
-          defaultTime={schedule.from}
-          onChange={value => updateClassSchedule(index, scheduleIndex, "from", value)}
-        />
+        <View style={styles.timesDisplay}>
+          <TimePicker
+            defaultTime={dateFromString(schedule.from)}
+            onChange={value => updateClassSchedule(index, scheduleIndex, "from", value)}
+          />
 
-        <TimePicker
-          defaultTime={schedule.to}
-          onChange={value => updateClassSchedule(index, scheduleIndex, "from", value)}
-        />
-      </Fieldset>
+          <TimePicker
+            defaultTime={dateFromString(schedule.to)}
+            onChange={value => updateClassSchedule(index, scheduleIndex, "to", value)}
+          />
+        </View>
+        <View style={styles.deleteItem}>
+          <View style={styles.horizontalLine} />
+          <Text
+            style={styles.deleteText}
+            onPress={() => removeSchedule(index, scheduleIndex)}
+          >
+            Excluir horário
+          </Text>
+          <View style={styles.horizontalLine} />
+        </View>
+      </>
     )
   }
 
@@ -198,7 +209,7 @@ function Profile() {
             <View>
               <Image
                 style={styles.userAvatar}
-                source={avatar !== '' ? {uri: avatar} : defaultAvatar}
+                source={avatar !== '' ? { uri: avatar } : defaultAvatar}
               />
               <RectButton
                 style={styles.cameraIcon}
@@ -302,27 +313,18 @@ function Profile() {
                 <Fieldset
                   style={styles.fieldset}
                   title='Horários disponíveis'
+                  rightButton={(
+                    <Text
+                      onPress={() => addEmptySchedule(index)}
+                      style={styles.newScheduleButton}
+                    >
+                      + Novo
+                    </Text>
+                  )}
                 >
                   {cls.schedules.map((scheduleItem, scheduleIndex) => {
                     return (
-                      <>
-                        <Select
-                          options={week_days}
-                          defaultValue={scheduleItem.week_day}
-                          onChange={value => updateClassSchedule(index, scheduleIndex, "week_day", value)}
-                        />
-                        <View style={styles.timesDisplay}>
-                          <TimePicker
-                            defaultTime={dataFromString(scheduleItem.from)}
-                            onChange={value => updateClassSchedule(index, scheduleIndex, "from", value)}
-                          />
-
-                          <TimePicker
-                            defaultTime={dataFromString(scheduleItem.to)}
-                            onChange={value => updateClassSchedule(index, scheduleIndex, "from", value)}
-                          />
-                        </View>
-                      </>
+                      displaySchedule(scheduleItem, index, scheduleIndex)
                     )
                   })}
                 </Fieldset>

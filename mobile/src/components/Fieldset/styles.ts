@@ -12,6 +12,11 @@ const styles = StyleSheet.create({
     borderColor: '#E6E6F0',
     marginTop: 8,
     marginBottom: 25
+  },
+  titleArea: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
   }
 })
 

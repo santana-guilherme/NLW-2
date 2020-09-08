@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     marginHorizontal: 16,
+    marginBottom: 20
   },
   fieldset: {
     padding: 24
@@ -93,6 +94,29 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 20,
     color: 'white'
+  },
+  deleteItem: {
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  horizontalLine:{
+    borderWidth: 1,
+    borderColor: '#E6E6F0',
+    marginTop: 8,
+    marginBottom: 25,
+    width: "29%"
+  },
+  deleteText:{
+    fontFamily: 'Archivo_700Bold',
+    fontSize: 12,
+    lineHeight: 20,
+    color: '#E33D3D'
+  },
+  newScheduleButton: {
+    fontFamily: 'Archivo_700Bold',
+    fontSize: 14,
+    lineHeight: 20,
+    color: '#8257E5'
   }
 })
 
