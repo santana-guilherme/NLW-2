@@ -18,6 +18,7 @@ import { useNavigation } from '@react-navigation/native';
 import classesJson from '../../resources/classes.json'
 import week_days from '../../resources/week_days.json'
 import convertTimeToString from '../../utils/convertMinutesToHour'
+import InputText from '../../components/InputText';
 
 function Profile() {
   const { goBack } = useNavigation()
@@ -70,7 +71,7 @@ function Profile() {
     if (user !== null) {
       setName(user.name)
       setLastName(user.last_name)
-      setAvatar(user.avatar)
+      setAvatar(user.avatar || '')
     }
   }
 
@@ -229,11 +230,11 @@ function Profile() {
               />
             }
             <Text style={styles.userName}>{user?.name} {user?.last_name}</Text>
-            {classes.length > 0
-              ? <Text style={styles.teacherClasses}>
-                {classes.map(cls => `${cls.subject}\n`)}
-              </Text>
-              : null}
+            {
+              classes.map(cls => {
+                return <Text style={styles.teacherClasses}>{cls.subject}</Text>
+              })
+            }
 
           </ImageBackground>
         </View>
@@ -243,21 +244,24 @@ function Profile() {
           <Fieldset
             style={styles.fieldset}
             title='Seus dados'>
-            <TextInput
+            <InputText
+              label='Nome'
               placeholder='Nome'
               placeholderTextColor='#6A6180'
               style={styles.textInput}
               value={name}
               onChangeText={text => setName(text)}
             />
-            <TextInput
+            <InputText
+              label='SobreNome'
               placeholder='Sobrenome'
               placeholderTextColor='#6A6180'
               style={styles.textInput}
               value={last_name}
               onChangeText={text => setLastName(text)}
             />
-            <TextInput
+            <InputText
+              label='Email'
               placeholder='Email'
               placeholderTextColor='#6A6180'
               style={styles.textInput}
@@ -266,7 +270,8 @@ function Profile() {
             />
             {(whatsapp && bio) ?
               <>
-                <TextInput
+                <InputText
+                  label='Whatsapp'
                   placeholder='Whatsapp'
                   placeholderTextColor='#6A6180'
                   style={styles.textInput}
@@ -276,7 +281,8 @@ function Profile() {
                   keyboardType="numeric"
                   onChangeText={text => setWhatsapp(text)}
                 />
-                <TextInput
+                <InputText
+                  label='Biografia'
                   placeholder='Biografia'
                   placeholderTextColor='#6A6180'
                   style={[styles.textInput, styles.textArea]}
@@ -301,7 +307,8 @@ function Profile() {
                     defaultValue={cls.subject}
                     onChange={(value) => updateClassField(index, value, 'subject')}
                   />
-                  <TextInput
+                  <InputText
+                    label='Custo da sua hora por aula'
                     placeholder='Custo da sua hora por aula'
                     placeholderTextColor='#6A6180'
                     style={styles.textInput}

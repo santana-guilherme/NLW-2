@@ -27,9 +27,9 @@ const styles = StyleSheet.create({
     fontFamily: "Archivo_700Bold",
     color: "#FFF",
     fontSize: 24,
-    lineHeight: 32,
-    maxWidth: 160,
+    lineHeight: 26,
     marginVertical: 40
+    //maxWidth: 160,
   },
 
   header: {

@@ -27,8 +27,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 16
   },
-  info: {
-
+  text: {
+    fontFamily:  'Poppins_400Regular',
+    fontSize: 14,
+    lineHeight: 24,
+    color: '#D4C2FF',
+    textAlign: "center"
   },
   button: {
     height: 56,

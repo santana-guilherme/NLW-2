@@ -21,6 +21,11 @@ export interface TeacherInfoInterface {
   classes: ClassesInterface[]
 }
 
+interface Teacher {
+  whasapp: string;
+  bio: string;
+}
+
 export async function getAllTeacherInfo(): Promise<TeacherInfoInterface | false> {
   try {
     const response = await api.get('/all-teacher-info')
@@ -31,4 +36,9 @@ export async function getAllTeacherInfo(): Promise<TeacherInfoInterface | false>
     console.log('err', JSON.stringify(err))
     return false
   }
+}
+
+export async function getTeacherInfo(): Promise<any> {
+  const response = await api.get('/teacher-info')
+  return response
 }

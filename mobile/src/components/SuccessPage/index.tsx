@@ -28,7 +28,7 @@ const SuccessPage: React.FC<SuccessPageProps> = ({ title, btnLabel, btnLink, chi
           source={successIcon}
         />
         <Text style={styles.title}>{title}</Text>
-        {children}
+        <Text style={styles.text}>{children}</Text>
       </ImageBackground>
       <RectButton
         style={styles.button}

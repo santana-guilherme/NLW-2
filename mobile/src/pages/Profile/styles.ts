@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   teacherClasses: {
     fontFamily: 'Poppins_400Regular',
     fontSize: 16,
-    lineHeight: 17,
+    lineHeight: 20,
     color: '#D4C2FF',
   },
   form: {

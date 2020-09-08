@@ -7,13 +7,12 @@ interface SelectProps {
     value: string,
     label: string
   }>;
-  defaultValue: string,
-  defaultOption?: string,
+  defaultValue?: string,
   onChange(a: any ): void
 }
 
 const Select: React.FC<SelectProps> = ({ options, defaultValue, onChange }) => {
-  const [selectedValue, setSelectedValue] = useState<string>(defaultValue.toString())
+  const [selectedValue, setSelectedValue] = useState<string>(defaultValue?.toString() || 'default')
 
   function handleValueChange(value: string) {
     setSelectedValue(value)
@@ -34,6 +33,7 @@ const Select: React.FC<SelectProps> = ({ options, defaultValue, onChange }) => {
         mode='dropdown'
         onValueChange={(item) => handleValueChange(item)}
       >
+        <Picker.Item label='Selecione uma opção' value='default' key={-1} />
         {
           options.map(op => {
             return <Picker.Item label={op.label} value={op.value} key={op.value} />
