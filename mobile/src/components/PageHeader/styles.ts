@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
 
   children: {

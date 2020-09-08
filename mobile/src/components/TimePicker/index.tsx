@@ -9,7 +9,7 @@ interface TimePickerProps extends RectButtonProperties {
   onChange(a: any): void
 }
 
-const TimePicker: React.FC<TimePickerProps> = ({ onChange, defaultTime, ...rest }) => {
+const TimePicker: React.FC<TimePickerProps> = ({ onChange, defaultTime, style, ...rest }) => {
   const [time, setTime] = useState(defaultTime)
   const [showPicker, setShowPicker] = useState(false)
 
@@ -32,8 +32,8 @@ const TimePicker: React.FC<TimePickerProps> = ({ onChange, defaultTime, ...rest 
     return `${hours}:${minutes}`
   }
   return (
-    <RectButton {...rest} onPress={handlePress}>
-      <Text style={styles.text}>{formatDate(time)}</Text>
+    <RectButton  style={[styles.btn, style]} {...rest} onPress={handlePress}>
+      <Text >{formatDate(time)}</Text>
       {showPicker &&
         <DateTimePicker
           value={defaultTime}

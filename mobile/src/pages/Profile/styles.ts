@@ -74,6 +74,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 20
   },
+  timePicker: {
+    width: 139
+  },
   footer: {
     borderTopWidth: 1,
     borderColor: '#E6E6F0',

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Text, TextInput } from 'react-native';
-import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
+import { BorderlessButton, RectButton, FlatList } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -9,7 +9,11 @@ import TeacherItem, { Teacher } from '../../components/TeacherItem';
 import api from '../../services/api';
 
 import styles from './styles';
+import classes from '../../resources/classes.json'
+import week_days from '../../resources/week_days.json'
 import { useFocusEffect } from '@react-navigation/native';
+import Select from '../../components/Select';
+import TimePicker from '../../components/TimePicker';
 
 function TeacherList() {
 
@@ -38,7 +42,7 @@ function TeacherList() {
       loadFavorites();
     }, [])
   )
-  
+
   function handleToggleFiltersVisible() {
     setIsFiltersVisible(!isFiltersVisible)
   }
@@ -57,6 +61,16 @@ function TeacherList() {
     setTeachers(response.data);
   }
 
+  function renderItem({ item }: any) {
+    return (
+      <TeacherItem
+        key={item.id}
+        teacher={item}
+        favorited={favorites.includes(item.id)}
+      />
+    )
+  }
+
   return (
     <View style={styles.container}>
       <PageHeader
@@ -70,35 +84,28 @@ function TeacherList() {
       >
         {isFiltersVisible && (
           <View style={styles.searchForm}>
-            <Text style={styles.label}>Matéria</Text>
-            <TextInput
-              style={styles.input}
-              value={subject}
-              onChangeText={text => setSubject(text)}
-              placeholder="Qual a metéria ?"
-              placeholderTextColor="#c1bccc"
+            <Select
+              label='Matéria'
+              options={classes}
+              onChange={text => setSubject(text)}
+              style={styles.label}
             />
 
             <View style={styles.inputGroup}>
               <View style={styles.inputBlock}>
-                <Text style={styles.label}>Dia da semana</Text>
-                <TextInput
-                  style={styles.input}
-                  value={week_day}
-                  onChangeText={text => setWeekDay(text)}
-                  placeholder="Qual o dia ?"
-                  placeholderTextColor="#c1bccc"
+                <Select
+                  label='Dia da semana'
+                  style={styles.label}
+                  onChange={text => setWeekDay(text)}
+                  options={week_days}
                 />
               </View>
 
               <View style={styles.inputBlock}>
                 <Text style={styles.label}>Horário</Text>
-                <TextInput
-                  style={styles.input}
-                  value={time}
-                  onChangeText={text => setTime(text)}
-                  placeholder="Qual o horário ?"
-                  placeholderTextColor="#c1bccc"
+                <TimePicker
+                  defaultTime={new Date()}
+                  onChange={text => setTime(text)}
                 />
               </View>
             </View>
@@ -115,23 +122,16 @@ function TeacherList() {
         )}
       </PageHeader>
 
-      <ScrollView
+      <FlatList
         style={styles.teacherList}
         contentContainerStyle={{
           paddingHorizontal: 16,
           paddingBottom: 16
         }}
-      >
-        {teachers.map((teacher: Teacher) => {
-          return (
-            <TeacherItem
-              key={teacher.id}
-              teacher={teacher}
-              favorited={favorites.includes(teacher.id)}
-            />
-          )
-        })}
-      </ScrollView>
+        data={teachers}
+        renderItem={renderItem}
+      />
+
     </View>
   );
 }

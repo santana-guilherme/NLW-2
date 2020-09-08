@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 
   inputGroup: {
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
 
   inputBlock: {

@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { Picker, View, PickerProperties } from 'react-native';
+import { Picker, View, PickerProperties, Text, TextProperties } from 'react-native';
 import styles from './styles';
 
-interface SelectProps {
+interface SelectProps extends TextProperties {
   options: Array<{
     value: string,
     label: string
   }>;
-  defaultValue?: string,
-  onChange(a: any ): void
+  defaultValue?: string;
+  onChange(a: any): void;
+  label: string;
 }
 
-const Select: React.FC<SelectProps> = ({ options, defaultValue, onChange }) => {
+const Select: React.FC<SelectProps> = ({ options, defaultValue, label, onChange, ...rest }) => {
   const [selectedValue, setSelectedValue] = useState<string>(defaultValue?.toString() || 'default')
 
   function handleValueChange(value: string) {
@@ -20,14 +21,9 @@ const Select: React.FC<SelectProps> = ({ options, defaultValue, onChange }) => {
   }
 
   return (
-    <View style={{
-        borderRadius: 8,
-        height: 56,
-        borderWidth: 1,
-        borderColor: '#E6E6F0',
-        marginBottom: 22,
-        backgroundColor: '#FAFAFC',
-        justifyContent: "center"}}>
+    <>
+    <Text style={styles.label} {...rest}>{label}</Text>
+    <View style={styles.container}>
       <Picker
         selectedValue={selectedValue}
         mode='dropdown'
@@ -41,6 +37,7 @@ const Select: React.FC<SelectProps> = ({ options, defaultValue, onChange }) => {
         }
       </Picker>
     </View>
+    </>
   );
 }
 

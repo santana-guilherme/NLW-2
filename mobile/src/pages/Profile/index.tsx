@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ImageBackground, Image, ScrollView, Clipboard } from 'react-native';
+import { RectButton, TextInput } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
-import PageHeader from '../../components/PageHeader';
-
+import classesJson from '../../resources/classes.json'
+import week_days from '../../resources/week_days.json'
 import background from '../../assets/images/logo-background.png'
 import defaultAvatar from '../../assets/images/defaultAvatar.png'
 import cameraIcon from '../../assets/images/icons/camera-icon.png'
 import styles from './styles'
-import { RectButton, TextInput } from 'react-native-gesture-handler';
+
+import PageHeader from '../../components/PageHeader';
 import Fieldset from '../../components/Fieldset';
 import Select from '../../components/Select';
+import InputText from '../../components/InputText';
 import TimePicker from '../../components/TimePicker';
+
 import { getAllTeacherInfo, ClassesInterface, TeacherInfoInterface } from '../../utils/teacher';
 import { useAuth } from '../../contexts/auth';
-import api from '../../services/api';
-import { useNavigation } from '@react-navigation/native';
-import classesJson from '../../resources/classes.json'
-import week_days from '../../resources/week_days.json'
 import convertTimeToString from '../../utils/convertMinutesToHour'
-import InputText from '../../components/InputText';
+import api from '../../services/api';
 
 function Profile() {
   const { goBack } = useNavigation()
@@ -167,17 +168,20 @@ function Profile() {
     return (
       <>
         <Select
+          label='Dia da semana'
           options={week_days}
           defaultValue={schedule.week_day}
           onChange={value => updateClassSchedule(index, scheduleIndex, "week_day", value)}
         />
         <View style={styles.timesDisplay}>
           <TimePicker
+            style={styles.timePicker}
             defaultTime={dateFromString(schedule.from)}
             onChange={value => updateClassSchedule(index, scheduleIndex, "from", value)}
           />
 
           <TimePicker
+            style={styles.timePicker}
             defaultTime={dateFromString(schedule.to)}
             onChange={value => updateClassSchedule(index, scheduleIndex, "to", value)}
           />
@@ -303,6 +307,7 @@ function Profile() {
                   title='Sobre a aula'
                 >
                   <Select
+                    label='Matéria'
                     options={classesJson}
                     defaultValue={cls.subject}
                     onChange={(value) => updateClassField(index, value, 'subject')}
