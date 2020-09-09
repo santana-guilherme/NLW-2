@@ -166,7 +166,7 @@ function Profile() {
 
   function displaySchedule(schedule: any, index: number, scheduleIndex: number) {
     return (
-      <>
+      <React.Fragment key={parseInt(`${index}${scheduleIndex}`)}>
         <Select
           label='Dia da semana'
           options={week_days}
@@ -196,7 +196,7 @@ function Profile() {
           </Text>
           <View style={styles.horizontalLine} />
         </View>
-      </>
+      </React.Fragment>
     )
   }
 
@@ -300,7 +300,7 @@ function Profile() {
           </Fieldset>
           {(classes.length && classes[0].cost) ? classes.map((cls, index) => {
             return (
-              <>
+              <React.Fragment key={index}>
                 <Fieldset
                   key={index + 1}
                   style={styles.fieldset}
@@ -340,7 +340,7 @@ function Profile() {
                     )
                   })}
                 </Fieldset>
-              </>
+              </React.Fragment>
             )
           }) : null}
           <View style={styles.footer}>

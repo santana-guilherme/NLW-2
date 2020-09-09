@@ -42,13 +42,35 @@ const styles = StyleSheet.create({
   },
 
   bio: {
-    marginHorizontal: 24,
+    paddingHorizontal: 24,
     fontFamily: 'Poppins_400Regular',
     fontSize: 14,
     lineHeight: 24,
     color: "#6a6180",
   },
-
+  horizontalLine: {
+    width: "100%",
+    height: 0,
+    marginVertical: 24,
+    borderWidth: 1,
+    borderColor: '#E6E6F0'
+  },
+  scheduleBoard: {
+    paddingHorizontal: 24,
+    justifyContent: "space-between",
+  },
+  scheduleHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 15,
+    marginBottom: 7.6
+  },
+  scheduleHeaderText: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 10,
+    lineHeight: 15,
+    color: '#9C98A6'
+  },
   footer: {
     backgroundColor: "#fafafc",
     padding: 24,
@@ -57,15 +79,21 @@ const styles = StyleSheet.create({
   },
 
   price: {
+    flexDirection:'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+
+  textPrice: {
     fontFamily: 'Poppins_400Regular',
     color: "#6a6180",
-    fontSize: 14
+    fontSize: 14,
   },
 
   priceValue: {
     fontFamily: 'Archivo_700Bold',
     color: "#8257e5",
-    fontSize: 16
+    fontSize: 16,
   },
 
   buttonsContainer: {

@@ -35,7 +35,6 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
 
   function completeSchedule() {
     const schedulesDays = teacher.schedules.map(schedule => schedule.week_day)
-    console.log('schedules Days', teacher.schedules)
     for(let day of [1,2,3,4,5]) {
       if(!(schedulesDays.includes(day))) {
         teacher.schedules.push({week_day: day})

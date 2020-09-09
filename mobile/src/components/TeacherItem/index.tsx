@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, Linking, AsyncStorage } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
 import heartOutlineIcon from '../../assets/images/icons/heart-outline.png'
 import unfavoriteIcon from '../../assets/images/icons/unfavorite.png'
 import whatsappIcon from '../../assets/images/icons/whatsapp.png'
+import defaultAvatar from '../../assets/images/defaultAvatar.png'
 
 import styles from './styles';
 import api from '../../services/api';
+import ScheduleItem from '../ScheduleItem';
 
 export interface Teacher {
   avatar: string;
@@ -17,6 +19,7 @@ export interface Teacher {
   name: string;
   subject: string;
   whatsapp: string;
+  schedules: any[];
 }
 
 interface TeacherProps {
@@ -28,9 +31,27 @@ interface TeacherProps {
 const TeacherItem: React.FC<TeacherProps> = ({ teacher, favorited }) => {
 
   const [isFavorited, setIsFavorited] = useState(favorited)
+  const [schedules, setSchedules] = useState<any[]>([])
+
+  useEffect(() => {
+    completeSchedule()
+  })
+
+  function completeSchedule() {
+    const schedulesDays = teacher.schedules.map(schedule => schedule.week_day)
+    for (let day of [1, 2, 3, 4, 5]) {
+      if (!(schedulesDays.includes(day))) {
+        teacher.schedules.push({ week_day: day })
+      }
+    }
+    teacher.schedules.sort(function (x, y) {
+      return parseInt(x.week_day) - parseInt(y.week_day)
+    })
+    setSchedules(teacher.schedules)
+  }
 
   async function handleLinkToWhatsapp() {
-    await api.post('connections',{
+    await api.post('connections', {
       user_id: teacher.id
     })
 
@@ -47,7 +68,7 @@ const TeacherItem: React.FC<TeacherProps> = ({ teacher, favorited }) => {
 
     if (isFavorited) {
       const favoriteIndex = favoritesArray.findIndex((teacherItem: Teacher) => {
-        return  teacherItem.id === teacher.id;
+        return teacherItem.id === teacher.id;
       });
 
       favoritesArray.splice(favoriteIndex, 1)
@@ -56,8 +77,8 @@ const TeacherItem: React.FC<TeacherProps> = ({ teacher, favorited }) => {
       favoritesArray.push(teacher)
     }
     await AsyncStorage.setItem('favorites', JSON.stringify(favoritesArray));
-    console.log('Nova lista de favoritos', favoritesArray)
-    console.log('Novos favoritos do banco', await AsyncStorage.getItem('favorites'))
+    /* console.log('Nova lista de favoritos', favoritesArray)
+    console.log('Novos favoritos do banco', await AsyncStorage.getItem('favorites')) */
     setIsFavorited(!isFavorited)
   }
 
@@ -66,7 +87,7 @@ const TeacherItem: React.FC<TeacherProps> = ({ teacher, favorited }) => {
       <View style={styles.profile}>
         <Image
           style={styles.avatar}
-          source={{ uri: teacher.avatar }}
+          source={teacher.avatar ? { uri: teacher.avatar }: defaultAvatar}
         />
         <View style={styles.profileInfo}>
           <Text style={styles.name}>{teacher.name}</Text>
@@ -76,11 +97,23 @@ const TeacherItem: React.FC<TeacherProps> = ({ teacher, favorited }) => {
 
       <Text style={styles.bio}> {teacher.bio}</Text>
 
+      <View style={styles.horizontalLine}/>
+
+      <View style={styles.scheduleBoard}>
+        <View style={styles.scheduleHeader}>
+          <Text style={styles.scheduleHeaderText}>Dia</Text>
+          <Text style={styles.scheduleHeaderText}>Horário</Text>
+        </View>
+        {schedules.map(schedule => {
+          return <ScheduleItem key={schedule.week_day} {...schedule} />
+        })}
+      </View>
+
       <View style={styles.footer}>
-        <Text style={styles.price}>
-          Preço/hora: {'   '}
+        <View style={styles.price}>
+          <Text style={styles.textPrice}>Preço da minha hora:</Text>
           <Text style={styles.priceValue}>R$ {teacher.cost}</Text>
-        </Text>
+        </View>
 
         <View style={styles.buttonsContainer}>
           <RectButton

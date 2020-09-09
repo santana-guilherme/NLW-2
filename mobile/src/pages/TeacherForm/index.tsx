@@ -51,8 +51,9 @@ function TeacherForm() {
 
   function displaySchedule(schedule: any, index: number) {
     return (
-      <>
+      <React.Fragment key={index}>
         <Select
+          label='Dia da semana'
           options={week_days}
           defaultValue={schedule.week_day}
           onChange={value => setScheduleItemValue(index, "week_day", value)}
@@ -78,7 +79,7 @@ function TeacherForm() {
           </Text>
           <View style={styles.horizontalLine} />
         </View>
-      </>
+      </React.Fragment>
     )
   }
 
@@ -161,6 +162,7 @@ function TeacherForm() {
           title='Sobre a aula'
         >
           <Select
+            label='Matéria'
             options={classes}
             onChange={value => setSubject(value)}
           />
