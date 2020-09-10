@@ -42,12 +42,11 @@ senha: proffy
 ## Layouts 
 
 <a href='https://www.figma.com/file/Q7gzokRc3MQ1k1y39SFQPb/Proffy-Web-2.0-Copy?node-id=160%3A2761'>
-  <img alt="Badge do figma" src="https://img.shields.io/static/v1?label=Figma&message=Acessar Layout&color=79dd2c&style=for-the-badge&logo=Figma"/>
-</a>
+  <img alt="Badge do figma" src="https://img.shields.io/static/v1?label=Figma&message=Acessar%20Layout&color=79dd2c&style=for-the-badge&logo=Figma"/>
+</a>  
 <br/>
 
-<div style="display: flex;
-flex-direction:column; justify-content: space-between; align-items: center;">
+<div style="display: flex;flex-direction:column;justify-content: space-between;align-items: center;">
   <img 
     src='./assets/Home.png'
     alt='home page'

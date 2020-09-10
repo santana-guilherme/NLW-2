@@ -58,7 +58,7 @@ function TeacherList() {
       alert(response.data.error)
     }
     setPage(page + 1)
-    return await response.data
+    return await response.data.classes
   }
 
 

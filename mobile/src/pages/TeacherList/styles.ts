@@ -6,11 +6,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f7'
   },
 
+  totalProffys: {
+    flexDirection: 'row',
+    alignItems: "center"
+  },
+  totalProffysIcon: {
+    width: 23,
+    height: 23,
+    marginRight: 8
+  },
+  totalProffysText: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 14,
+    color:'#D4C2FF'
+  },
   teacherList: {
     marginTop: -40
   },
 
   searchForm: {
+    marginTop: 20,
     marginBottom: 24
   },
 
@@ -51,6 +66,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Archivo_700Bold',
     fontSize: 16,
     color: '#FFF'
+  },
+
+  flFooterComponent: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 12,
+    lineHeight: 22,
+    color: '#6A6180',
+    textAlign: "center"
   }
 
 })

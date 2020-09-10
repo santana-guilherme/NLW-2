@@ -27,9 +27,32 @@ export default class ClassesController {
     var { page = 1, limit = 10 } = request.query
     page = Number(page) > 0 ? Number(page): 1
     limit = Number(limit)
-
     const timeInMinutes = convertHourToMinutes(time);
-    const classes = await db('classes')
+
+    const subquery =  db.table('class_schedule.*')
+    .from('class_schedule')
+    .whereRaw('class_schedule.class_id = classes.id')
+    .whereRaw('class_schedule.week_day = ??', [week_day])
+    .whereRaw('class_schedule.from <= ??', [timeInMinutes])
+    .whereRaw('class_schedule.to > ??', [timeInMinutes])
+
+
+    const query = db.table('classes')
+    .whereExists(subquery).limit(limit).offset( (page-1)*limit )
+    .where('classes.subject', '=', subject)
+    .join('teachers', 'classes.teacher_id', '=', 'teachers.id')
+    .join('users', 'teachers.user_id', '=', 'users.id')
+    
+    const classes = await query.clone().select(['teachers.*', 'users.*','classes.*'])
+    let totalProfessors: any[] = [{"count": 0}]
+    if(page === 1){
+      totalProfessors = await query.clone().count();
+      totalProfessors = totalProfessors[0]['count']
+    }
+    
+
+    
+    /* const classes = await db.table('classes')
       .whereExists(function () {
         this.select('class_schedule.*')
           .from('class_schedule')
@@ -41,13 +64,14 @@ export default class ClassesController {
       .where('classes.subject', '=', subject)
       .join('teachers', 'classes.teacher_id', '=', 'teachers.id')
       .join('users', 'teachers.user_id', '=', 'users.id')
-      .select(['teachers.*', 'users.*','classes.*'])
+      .select(['teachers.*', 'users.*','classes.*']) */
+
 
       for(let cls of classes) {
         cls.schedules = await this.getClassSchedules(cls.id)
       }
 
-    return response.json(classes)
+    return response.json({classes, total: totalProfessors})
   }
 
   async create(request: Request, response: Response) {

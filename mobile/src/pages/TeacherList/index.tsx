@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
-import { BorderlessButton, RectButton, FlatList } from 'react-native-gesture-handler';
-import { Feather } from '@expo/vector-icons';
+import { View, Text, Image } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import PageHeader from '../../components/PageHeader';
 import TeacherItem, { Teacher } from '../../components/TeacherItem';
 import api from '../../services/api';
+import Select from '../../components/Select';
+import TimePicker from '../../components/TimePicker';
+import FilterButton from '../../components/FilterButton';
 
 import styles from './styles';
 import classes from '../../resources/classes.json'
 import week_days from '../../resources/week_days.json'
 import { useFocusEffect } from '@react-navigation/native';
-import Select from '../../components/Select';
-import TimePicker from '../../components/TimePicker';
+import smileIcon from '../../assets/images/icons/smile.png';
+import { RectButton, FlatList } from 'react-native-gesture-handler';
 
 function TeacherList() {
 
@@ -22,11 +23,29 @@ function TeacherList() {
   const [isFiltersVisible, setIsFiltersVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0)
+  const [totalTeachers, setTotalTeachers] = useState(0)
+  const [endValues, setEndValues] = useState(false)
 
   const [subject, setSubject] = useState("");
   const [time, setTime] = useState("");
   const [week_day, setWeekDay] = useState("");
 
+
+  useFocusEffect(
+    React.useCallback(() => {
+      loadFavorites();
+    }, [])
+  )
+
+  useEffect(() => {
+    if (page > 0)
+      fetchClasses()
+  }, [page])
+
+  useEffect(() => {//improve page state
+    if (teachers.length === 0 && page === 1)
+      fetchClasses()
+  }, [teachers])
 
   function loadFavorites() {
     AsyncStorage.getItem('favorites').then((response) => {
@@ -40,29 +59,6 @@ function TeacherList() {
     });
   }
 
-  useFocusEffect(
-    React.useCallback(() => {
-      loadFavorites();
-    }, [])
-  )
-
-  useEffect(() => {
-    if(page > 0)
-      fetchClasses()
-  }, [page])
-
-  function handleToggleFiltersVisible() {
-    setIsFiltersVisible(!isFiltersVisible)
-  }
-
-  async function handleFiltersSubmit() {
-    setIsLoading(true)
-    setTeachers([])
-    setPage(1)
-    setIsFiltersVisible(false);
-    setIsLoading(false)
-  }
-
   function renderItem({ item }: any) {
     return (
       <TeacherItem
@@ -73,46 +69,88 @@ function TeacherList() {
     )
   }
 
-  async function fetchClasses(fromFirst: boolean = false) {
-    const response = await api.get(`classes?limit=5&page=${fromFirst ? 1 : page}`, {
-      params: {
-        subject,
-        week_day,
-        time
+  function handleToggleFiltersVisible() {
+    setIsFiltersVisible(!isFiltersVisible)
+  }
+
+  async function handleFiltersSubmit() {
+    setIsLoading(true)
+    setEndValues(false)
+    setTeachers([])
+    setPage(1)
+    handleToggleFiltersVisible()
+    setIsLoading(false)
+  }
+
+  async function fetchClasses() {
+    try {
+      const response = await api.get(`classes?limit=5&page=${page}`, {
+        params: {
+          subject,
+          week_day,
+          time
+        }
+      })
+
+      const newTeachers = response.data.classes
+      if (newTeachers.length > 0) {
+        setTeachers([...teachers, ...newTeachers])
+      } else {
+        setPage(0)
+        setEndValues(true)
       }
-    })
 
-    if (response.status !== 200) {
-      alert(response.data.error)
-    }
-
-    const newTeachers = response.data
-    if(newTeachers.length > 0) {
-      setTeachers([...teachers, ...newTeachers])
-    } else{
+      if (page === 1) {
+        setTotalTeachers(response.data.total)
+      }
+    } catch (err) {
+      console.log('REQUEST ERROR:', err)
       setPage(0)
+      setEndValues(true)
     }
   }
 
   async function onScroll() {
-    if (!isLoading) {
+    if (!isLoading && !endValues) {
       setIsLoading(true)
-      setPage(page+1)
+      setPage(page + 1)
       setIsLoading(false)
     }
+  }
+
+  function footerComponent() {
+    if (endValues) {
+        if(teachers.length > 0)
+          return (
+            <Text style={styles.flFooterComponent}>
+              Estes são todos os resultados
+            </Text>)
+        else
+          return (
+            <Text style={[styles.flFooterComponent, {marginTop: 80}]}>
+              Não há professores para sua busca
+            </Text>)
+    }
+    else
+      return null
   }
 
   return (
     <View style={styles.container}>
       <PageHeader
         topTitle='Estudar'
-        title="Proffys disponíveis"
+        title={`Proffys${'\n'}Disponíveis`}
         headerRight={(
-          <BorderlessButton onPress={handleToggleFiltersVisible}>
-            <Feather name="filter" size={20} color='#FFF' />
-          </BorderlessButton>
+          <View style={styles.totalProffys}>
+            <Image source={smileIcon} style={styles.totalProffysIcon} />
+            <Text style={styles.totalProffysText}>{totalTeachers} proffys</Text>
+          </View>
         )}
       >
+        <FilterButton
+          onPress={handleToggleFiltersVisible}
+          isFilterVisible={isFiltersVisible}
+        />
         {isFiltersVisible && (
           <View style={styles.searchForm}>
             <Select
@@ -163,7 +201,8 @@ function TeacherList() {
         renderItem={renderItem}
         keyExtractor={(item: any) => item.id.toString()}
         onEndReached={onScroll}
-        onEndReachedThreshold={.1}
+        onEndReachedThreshold={.2}
+        ListFooterComponent={footerComponent}
       />
 
     </View>
