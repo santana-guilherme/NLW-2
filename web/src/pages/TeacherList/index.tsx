@@ -13,7 +13,7 @@ import './styles.css'
 function TeacherList() {
   const [teachers, setTeachers] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
   const [subject, setSubject] = useState("")
   const [week_day, setWeekDay] = useState("")
   const [time, setTime] = useState("")
@@ -25,55 +25,60 @@ function TeacherList() {
       return () => {
         window.removeEventListener('scroll', onScroll, false);
       }
-    }
-  )
+    })
+
+  useEffect(() => {
+    if (page > 0)
+      fetchClasses()
+  }, [page])
+
+  useEffect(() => {
+    if (teachers.length === 0 && page === 1)
+      fetchClasses()
+  }, [teachers])
+
 
   async function onScroll() {
     if (((window.innerHeight + window.scrollY) >= (document.body.scrollHeight - 300))
-      && teachers.length > 0 && !isLoading) {
-
+      && teachers.length > 0 && !isLoading && !noMoreResults) {
       setIsLoading(true)
-      const teachersResponse = await fetchClasses()
-      if (await teachersResponse.length > 0) {
-        setTeachers([...teachers, ...teachersResponse])
-        setIsLoading(false)
-      } else {
-        setIsLoading(true)
-        setPage(1)
-        setNoMoreResults(true)
-      }
+      setPage(page + 1)
     }
   }
 
   async function fetchClasses() {
-    const response = await api.get(`classes?limit=5&page=${page}`, {
-      params: {
-        subject,
-        week_day,
-        time
-      }
-    })
+    try {
+      const response = await api.get(`classes?limit=5&page=${page}`, {
+        params: {
+          subject,
+          week_day,
+          time
+        }
+      })
 
-    if (response.status !== 200) {
-      alert(response.data.error)
+      const newTeachers = response.data.classes
+      if (newTeachers.length > 0) {
+        setTeachers([...teachers, ...newTeachers])
+        setIsLoading(false)
+      } else {
+        setPage(0)
+        setNoMoreResults(true)
+      }
+    } catch (err) {
+      console.log('REQUEST ERROR:', err)
+      setPage(0)
+      setNoMoreResults(true)
     }
-    setPage(page + 1)
-    return await response.data.classes
   }
+
 
 
   async function handleSearchTeachers(e: FormEvent) {
     e.preventDefault()
-    const teachersResponse = await fetchClasses()
-    if (teachersResponse.length === 0) {
-      setNoMoreResults(true)
-      setPage(1)
-      /* setIsLoading(true) */
-    } else {
-      setIsLoading(false)
-      setNoMoreResults(false)
-    }
-    setTeachers(teachersResponse)
+    setNoMoreResults(false)
+    setTeachers([])
+    setPage(1)
+    setIsLoading(false)
   }
 
   return (

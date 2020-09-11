@@ -235,8 +235,8 @@ function Profile() {
             }
             <Text style={styles.userName}>{user?.name} {user?.last_name}</Text>
             {
-              classes.map(cls => {
-                return <Text style={styles.teacherClasses}>{cls.subject}</Text>
+              classes.map((cls, index) => {
+                return <Text style={styles.teacherClasses} key={index}>{cls.subject}</Text>
               })
             }
 

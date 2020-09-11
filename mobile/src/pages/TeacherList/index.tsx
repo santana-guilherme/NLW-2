@@ -88,7 +88,7 @@ function TeacherList() {
       })
 
       const newTeachers = response.data.classes
-      if (newTeachers.length > 0) {
+      if (newTeachers && newTeachers.length > 0) {
         setTeachers([...teachers, ...newTeachers])
       } else {
         setPage(0)
