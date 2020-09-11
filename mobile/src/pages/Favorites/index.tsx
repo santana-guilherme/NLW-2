@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, ScrollView, AsyncStorage } from 'react-native';
+import { View, ScrollView, AsyncStorage, Image, Text } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native'
 import PageHeader from '../../components/PageHeader';
 import TeacherItem, { Teacher } from '../../components/TeacherItem';
 
+
 import styles from './styles';
+import favoritesIcon from '../../assets/images/icons/favorites.png'
 import api from '../../services/api';
 
 
@@ -39,7 +41,16 @@ function Favorites() {
 
   return (
     <View style={styles.container}>
-      <PageHeader topTitle="Favoritos" title="Meus proffys favoritos" />
+      <PageHeader
+        topTitle="Favoritos"
+        title={`Meus proffys${'\n'}favoritos`}
+        headerRight={(
+          <View style={styles.favoritesProffys}>
+            <Image source={favoritesIcon} style={styles.favoritesProffysIcon} />
+            <Text style={styles.favoritesProffysText}>{favorites.length} proffys</Text>
+          </View>
+        )}
+      />
 
       <ScrollView
         style={styles.teacherList}
