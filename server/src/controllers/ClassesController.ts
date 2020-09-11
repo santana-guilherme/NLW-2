@@ -44,27 +44,13 @@ export default class ClassesController {
     .join('users', 'teachers.user_id', '=', 'users.id')
     
     const classes = await query.clone().select(['teachers.*', 'users.*','classes.*'])
+
     let totalProfessors: any[] = [{"count": 0}]
+
     if(page === 1){
       totalProfessors = await query.clone().count();
       totalProfessors = totalProfessors[0]['count']
     }
-    
-
-    
-    /* const classes = await db.table('classes')
-      .whereExists(function () {
-        this.select('class_schedule.*')
-          .from('class_schedule')
-          .whereRaw('class_schedule.class_id = classes.id')
-          .whereRaw('class_schedule.week_day = ??', [week_day])
-          .whereRaw('class_schedule.from <= ??', [timeInMinutes])
-          .whereRaw('class_schedule.to > ??', [timeInMinutes])
-      }).limit(limit).offset( (page-1)*limit )
-      .where('classes.subject', '=', subject)
-      .join('teachers', 'classes.teacher_id', '=', 'teachers.id')
-      .join('users', 'teachers.user_id', '=', 'users.id')
-      .select(['teachers.*', 'users.*','classes.*']) */
 
 
       for(let cls of classes) {

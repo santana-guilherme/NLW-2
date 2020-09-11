@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import PageHeader from '../../components/PageHeader';
-import TeacherItem, { Teacher } from '../../components/TeacherItem';
+import TeacherItem from '../../components/TeacherItem';
 import api from '../../services/api';
 import Select from '../../components/Select';
 import TimePicker from '../../components/TimePicker';
@@ -47,16 +46,11 @@ function TeacherList() {
       fetchClasses()
   }, [teachers])
 
-  function loadFavorites() {
-    AsyncStorage.getItem('favorites').then((response) => {
-      if (response) {
-        const teachers = JSON.parse(response);
-        const favoritedTeachersIds = teachers.map((teacher: Teacher) => {
-          return teacher.id
-        })
-        setFavorites(favoritedTeachersIds);
-      }
-    });
+  async function loadFavorites() {
+    const response = await api.get('/favorite-teachers')
+    let favorites_ids = []
+    favorites_ids = response.data?.map((fav: any) => fav.teacher_id)
+    setFavorites(favorites_ids)
   }
 
   function renderItem({ item }: any) {
@@ -64,7 +58,8 @@ function TeacherList() {
       <TeacherItem
         key={parseInt(item.id)}
         teacher={item}
-        favorited={favorites.includes(item.id)}
+        favorited={favorites.includes(item.teacher_id)}
+        onFavoriteTeacher={(teachers_id) => setFavorites([...favorites, teachers_id])}
       />
     )
   }
@@ -120,16 +115,16 @@ function TeacherList() {
 
   function footerComponent() {
     if (endValues) {
-        if(teachers.length > 0)
-          return (
-            <Text style={styles.flFooterComponent}>
-              Estes são todos os resultados
-            </Text>)
-        else
-          return (
-            <Text style={[styles.flFooterComponent, {marginTop: 80}]}>
-              Não há professores para sua busca
-            </Text>)
+      if (teachers.length > 0)
+        return (
+          <Text style={styles.flFooterComponent}>
+            Estes são todos os resultados
+          </Text>)
+      else
+        return (
+          <Text style={[styles.flFooterComponent, { marginTop: 80 }]}>
+            Não há professores para sua busca
+          </Text>)
     }
     else
       return null

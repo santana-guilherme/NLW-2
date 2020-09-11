@@ -58,6 +58,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between"
   },
+  rememberUserOption: {
+    flexDirection: "row",
+    alignItems: 'center'
+  },
+  checkbox:{
+    height: 24,
+    width: 24,
+    borderRadius: 8,
+    borderWidth: .5,
+    borderColor: '#E6E6F0',
+    backgroundColor: 'white',
+    marginRight: 12,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   optionsText: {
     color: '#9C98A6',
     fontFamily: 'Poppins_400Regular',

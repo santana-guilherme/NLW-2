@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, KeyboardAvoidingView, TextInput } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import { Feather } from '@expo/vector-icons';
 import { useAuth } from '../../contexts/auth'
 import { valuesAreNotEmpty } from '../../utils/valuesAreNotEmpty';
 
@@ -63,7 +64,16 @@ function Login() {
         <View style={styles.formFooter}>
 
           <View style={styles.formOptions}>
-            <Text style={styles.optionsText}>Lembrar-me</Text>
+            <View style={styles.rememberUserOption}>
+              <RectButton
+                style={[styles.checkbox,
+                {backgroundColor: remember ? '#04D361': 'white'}]}
+                onPress={() => setRemember(!remember)}
+              >
+                <Feather name="check" size={15} color="white" />
+              </RectButton>
+              <Text style={styles.optionsText}>Lembrar-me</Text>
+            </View>
             <Text
               onPress={() => handleNavigateToForgotPassword()}
               style={styles.optionsText}
