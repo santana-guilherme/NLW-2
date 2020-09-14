@@ -4,8 +4,6 @@
 
 <h3 align="center">Proffy - A plataforma que conecta estudantes e professores</h3>
 
-<h5 align="center">🚧 Em construção... 🚧</h5>
-
 <p align="center">
   <img alt="node version" src="https://img.shields.io/static/v1?label=node&message=12.18.3&color=79dd2c&style=for-the-badge"/>
   
@@ -34,7 +32,10 @@ Esse projeto permite o cadastro de professores e alunos. Os professores  informa
 </div>
 
 ## Live
-https://admiring-brattain-93e78f.netlify.app/
+### Web
+  https://admiring-brattain-93e78f.netlify.app/
+### Mobile
+  https://expo.io/@guilherme_santana/proffy
 
 email: teste@email.com  
 senha: proffy
@@ -42,9 +43,15 @@ senha: proffy
 ## Layouts 
 
 <a href='https://www.figma.com/file/Q7gzokRc3MQ1k1y39SFQPb/Proffy-Web-2.0-Copy?node-id=160%3A2761'>
-  <img alt="Badge do figma" src="https://img.shields.io/static/v1?label=Figma&message=Acessar%20Layout&color=79dd2c&style=for-the-badge&logo=Figma"/>
+  <img alt="Badge do figma" src="https://img.shields.io/static/v1?label=Figma&message=Acessar%20Layout%20Web&color=79dd2c&style=for-the-badge&logo=Figma"/>
 </a>  
-<br/>
+
+<a href='https://www.figma.com/file/02ALZ4cKhnbrO1uYbmKNts/Proffy-Mobile-2.0-Copy?node-id=188%3A581'>
+  <img alt="Badge do figma" src="https://img.shields.io/static/v1?label=Figma&message=Acessar%20Layout%20Mobile&color=79dd2c&style=for-the-badge&logo=Figma"/>
+</a>  
+
+
+
 
 <div style="display: flex;flex-direction:column;justify-content: space-between;align-items: center;">
   <img 
@@ -76,6 +83,7 @@ senha: proffy
 <ul>
   <li>Heroku</li>
   <li>Netlify</li>
+  <li>Expo</li>
 </ul>
 
 ## Executando a aplicação :rocket:
